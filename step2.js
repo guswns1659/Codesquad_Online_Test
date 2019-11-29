@@ -17,6 +17,8 @@ input.checkChoice = function() {
     if (this.inputOrOutput === 1 ){
         this.teamName();
         this.askBatterInfo();
+        this.teamName();
+        this.askBatterInfo();
     } else if (this.inputOrOutput === 2) {
         
     } else {
@@ -28,17 +30,17 @@ input.checkChoice = function() {
 // 팀이름 입력을 요청하는 메소드
 input.teamName = function () {
     if(this.askCount===1){
-        this.teamName1 = prompt('1팀의 이름을 입력하세요');
+        this.teamName1 = prompt('1팀의 이름을 입력하세요. ex)손현준');
     } else {
-        this.teamName2 = prompt('2팀의 이름을 입력하세요');
+        this.teamName2 = prompt('2팀의 이름을 입력하세요.');
     }
 }
 
-//team1에게 정보 물어보는 메소드
+// Team1에게 정보 물어보는 메소드
 input.askToTeam1 = function () {
     for(let i = 0; i<2; i++){
-        let batterName = prompt(`${i+1}번 타자 이름 입력`);
-        let battingAvg = prompt(`${i+1}번 타자 타율 입력`);
+        let batterName = prompt(`1팀의 ${i+1}번 타자의 '이름'을 입력하세요!`);
+        let battingAvg = prompt(`1팀의 ${i+1}번 타자의 '타율'을 입력하세요! ex) 0.333`);
         this.batterName1.push(batterName);
         this.battingAvg1.push(battingAvg);
         
@@ -46,11 +48,11 @@ input.askToTeam1 = function () {
 
 }
 
-//team2에게 정보 물어보는 메소드
+// Team2에게 정보 물어보는 메소드
 input.askToTeam2 = function () {
     for(let i = 0; i<2; i++){
-        let batterName = prompt(`${i+1}번 타자 이름 입력`);
-        let battingAvg = prompt(`${i+1}번 타자 타율 입력`);
+        let batterName = prompt(`2팀의 ${i+1}번 타자의 '이름'을 입력하세요!`);
+        let battingAvg = prompt(`2팀의 ${i+1}번 타자의 '타율'을 입력하세요! ex) 0.432`);
         this.batterName2.push(batterName);
         this.battingAvg2.push(battingAvg);   
     }
@@ -58,7 +60,7 @@ input.askToTeam2 = function () {
 
 // 타자 이름 입력을 요청하는 메소드
 input.askBatterInfo = function () {
-    if(this.askCount==1) {
+    if(this.askCount == 1) {
         this.askToTeam1();
     } else {
         this.askToTeam2();
