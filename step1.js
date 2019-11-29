@@ -1,5 +1,10 @@
+// Baseball Game 
+// By Hyunjun
+// 2019.11.29
+
+
 // Score Object
-// Intialize score and change score.
+// Intialize condition and change condition.
 score = {scoreList : ['스트라이크', '볼', '안타', '아웃'],
          strikeCount : 0,
          ballCount : 0,
@@ -8,9 +13,8 @@ score = {scoreList : ['스트라이크', '볼', '안타', '아웃'],
          playCount : 0,
 };
 
-
-// Checking how many accumulate count of score
-// ex) 3 strikeCount === 1 outCount
+// Accumulate condition
+// ex) 3 strike === 1 out
 score.checkAccumulation = function () {
     if(this.strikeCount === 3){
         this.outCount++;
@@ -18,52 +22,53 @@ score.checkAccumulation = function () {
         this.hitCount++;
     }
 }
-// Print score
-score.print = function (condition) {
-    
+
+// Print method
+score.print = function () {
     if(this.isOver()) {
-        console.log(`${this.condition}!\n${this.strikeCount}S ${this.ballCount}B ${this.outCount}O`);
-        console.log(`최종 안타수 : ${this.hitCount}개 입니다.\nGAME OVER`);
-    } else if(this.isOutOrHit(this.condition)) {
+        console.log(`아웃!\n${this.strikeCount}S ${this.ballCount}B ${this.outCount}O`);
+        console.log(`최종 안타 수 : ${this.hitCount}개 입니다.\nGAME OVER`);
+    } else if(this.isOutOrHit()) {
         console.log(`${this.condition}! 다음 타자가 타석에 입장했습니다.`);
-        this.scoreInit(); //프린트하고 스코어 초기화
+        this.scoreInit(); 
         console.log(`${this.strikeCount}S ${this.ballCount}B ${this.outCount}O`);
-    } else if(this.is3StrikeOr4Ball) {
-        console.log(`${스트라이크}\n아웃! 다음 타자가 타석에 입장했습니다.`)
-    }
-    else {
+    } else if(this.is3StrikeOr4Ball()) {
+        console.log(`${this.condition}\n아웃! 다음 타자가 타석에 입장했습니다.`)
+        this.scoreInit(); 
+        console.log(`${this.strikeCount}S ${this.ballCount}B ${this.outCount}O`);
+    } else {
         console.log(`${this.condition}!\n${this.strikeCount}S ${this.ballCount}B ${this.outCount}O`);
     }
 };
 
-
-
-// Checking game is over or not
+// Checking if game is over or not
 score.isOver = function () {
     return this.outCount === 3;
 }
 
-// Checking if score is out or hit 
-score.isOutOrHit = function (score) {
-    return score === '안타' || score === '아웃';
+// Checking if condition is hit or out 
+score.isOutOrHit = function () {
+    return this.condition === '안타' || this.condition === '아웃';
 }
 
-// Checking if score is 3Strike or 4Ball 
-score.isFullStrikeOrBall = function () {
+// Checking if condition is 3Strike or 4Ball 
+score.is3StrikeOr4Ball = function () {
     return this.strikeCount === 3 || this.ballCount ===4;
 }
 
-// Checking progression of game and Initializing game
-score.progress = function (score) {
+// Checking progress of game and restarting game
+score.progress = function () {
     if (this.isOver()){
         this.scoreInit();
-        this.print(score);
-    } else if (this.isOutOrHit(score)) {
-        // this.scoreInit();
-        this.print(score);
+        this.print();
+    } else if (this.isOutOrHit()) {
+        this.print();
         // this.init();
-    } else if (score === '스트라이크' || score ==='볼'){
-        this.print(score);
+    } else if(this.is3StrikeOr4Ball()) {
+        this.print();
+        // this.init();
+    } else if(this.condition === '스트라이크' || this.condition ==='볼'){
+        this.print();
         // this.init();
     }
 }
@@ -76,24 +81,23 @@ score.scoreInit = function () {
 
 
 // Update count of score
-score.updateScore =function (score) {
-    if(score === '스트라이크') {
+score.updateScore =function () {
+    if(this.condition === '스트라이크') {
         this.strikeCount++;
-    } else if(score === '볼') {
+    } else if(this.condition === '볼') {
         this.ballCount++;
-    } else if(score === '안타') {
+    } else if(this.condition === '안타') {
         this.hitCount++;
-    } else if(score === '아웃') {
+    } else if(this.condition === '아웃') {
         this.outCount++;
     } 
 }
 
 
 // Pick random score in scoreList 
-score.pickRandomScore = function (){
+score.pickRandomCondition = function (){
     const randomNum = Math.floor(Math.random() * 4); // 0, 1, 2, 3
     this.condition = this.scoreList[randomNum] // 스크라이크
-    return score
 };
 
 // starting game 
@@ -103,11 +107,10 @@ score.init = function () {
         console.log(`신나는 야구게임!`);
         console.log(`첫 번째 타자가 타석에 입장했습니다.\n`);
     }
-    let score = this.pickRandomScore();
-    this.updateScore(score); // strikeCount++;
+    this.pickRandomCondition();
+    this.updateScore(); // strikeCount++;
     this.checkAccumulation(); // 스트라이크 3개면 아웃 1개
-    // this.print(score);
-    this.progress(score);
+    this.progress();
 
 }
 score.init();
