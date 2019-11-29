@@ -1,2 +1,5 @@
-# Codesquad_Online_Test
-코드스쿼드 온라인 테스트 
+# Codesquad Online Test
+
+## Step 1: Simple baseball game
+
+
