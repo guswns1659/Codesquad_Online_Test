@@ -1,11 +1,16 @@
 /* Step2-1 리팩토링 요소
-    -타율 물어볼 때 세자리수 입력하면 자동으로 0.321 바꿔주는 기능 추가 
+     
     -타율 세자리수 아니면 alert로 예외 처리
     -데이터 입력 완료하고 처음 화면 띄워서 출력을 물어보기, 만약 입력 완료한 상태면 입력 완료 말하기 
         -수정까지 추가하면 좋을 듯. 한번 잘 못 입력하면 불편..   
     
     Step2-2 리팩토링 요소
     -4ball 에도 아웃이 출력된다. 
+*/
+/*
+    구현 요소
+    -team1이 3아웃이면 team2가 공격. 
+    -6회까지 구현하기.
 */
 
 
@@ -36,8 +41,8 @@ info.askChoice = function () {
 info.userWantInput = function () {
     this.askTeamName();
     this.askBatterInfo();
-    // this.askTeamName();
-    // this.askBatterInfo();
+    this.askTeamName();
+    this.askBatterInfo();
     init();
 }
 
@@ -58,7 +63,7 @@ info.userWantPlay = function () {
         alert('현재 입력된 데이터가 없습니다!\n먼저 팀 데이터를 입력해주세요!!');
         init();
     } else {
-        // game.init(); //처음 게임 시작 
+        game.init(); //처음 게임 시작 
     }
 } 
 
@@ -90,7 +95,7 @@ info.askTeamName = function () {
 
 // Team1에게 정보 물어보는 메소드
 info.askToTeam1 = function () {
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 5; i++) {
         let batterName = prompt(`1팀의 ${i + 1}번 타자의 '이름'을 입력하세요!`);
         let battingAvg = (Number(prompt(`1팀의 ${i + 1}번 타자의 '타율'을 입력하세요! ex) 333`)) / 1000);
         this.batterName1.push(batterName);
@@ -102,7 +107,7 @@ info.askToTeam1 = function () {
 info.askToTeam2 = function () {
     for (let i = 0; i < 5; i++) {
         let batterName = prompt(`2팀의 ${i + 1}번 타자의 '이름'을 입력하세요!`);
-        let battingAvg = Number(prompt(`2팀의 ${i + 1}번 타자의 '타율'을 입력하세요! ex) 0.432`));
+        let battingAvg = (Number(prompt(`2팀의 ${i + 1}번 타자의 '타율'을 입력하세요! ex) 432`)) / 1000);
         this.batterName2.push(batterName);
         this.battingAvg2.push(battingAvg);
     }
@@ -146,8 +151,10 @@ info.printTeam2Info = function () {
 // 게임 객체
 // 야구와 관련된 속성 및 메소드 저장
 game = {
-    inning: 0,
-    playerOrder: 0,
+    inning: 1,
+    team1PlayerOrder : 0,
+    team2PlayerOrder : 0,
+    isTeam1 : true,
     strikeCount: 0,
     ballCount: 0,
     hitCount: 0,
@@ -156,33 +163,64 @@ game = {
 
 // 게임 시작하는 메소드
 game.init = function () {
-    if (this.inning === 0) {
-        this.inning += 1;
+    if (this.inning === 1) {
         let outputStr = '';
         outputStr += `${info.teamName1} VS ${info.teamName2}의 시합을 시작합니다.<br>`
         output10.innerHTML = outputStr;
     }
-    console.log(this.inning);
-    let playerBattingAvg =this.attack(game.playerOrder, info.batterName1, info.battingAvg1);
+    const playerBattingAvg = this.whichTeam();
     this.isProbability(playerBattingAvg);
     this.updateCondition();
     this.checkAccumulation();
     this.progress();
 }
 
+// team1인지 team2에 따라 타순을 가져오는 메소드
+game.whichTeam = function () {
+    let playerBattingAvg;
+    if(this.isTeam1Attack()) {
+        playerBattingAvg =this.attack(game.team1PlayerOrder, info.battingAvg1);
+    } else {
+        playerBattingAvg =this.attack(game.team2PlayerOrder, info.battingAvg2);
+    }
+    return playerBattingAvg;
+}
+
+// 현재 team1이 공격하는지 물어보는 메소드.
+game.isTeam1Attack = function () {
+    return this.isTeam1;
+}
+
+// team1의 타자 순서를 1씩 증가하는 메소드
+game.plusPlayOrder1 = function () {
+    if(this.team1PlayerOrder === 8){
+        this.team1PlayerOrder = 0; // 타순 한바퀴 돌면 0으로 초기화
+    } else {
+        this.team1PlayerOrder += 1;
+    }
+}
+
+// team2의 타자 순서를 1씩 증가하는 메소드
+game.plusPlayOrder2 = function () {
+    if(this.team2PlayerOrder === 8){
+        this.team2PlayerOrder = 0; // 타순 한바퀴 돌면 0으로 초기화
+    } else {
+        this.team2PlayerOrder += 1;
+    }
+}
+
 // 타자 순서를 1씩 증가시키는 메소드
 game.batterOrder = function () {
-    if(this.playerOrder === 8){
-        this.playerOrder = 0; // 타순 한바퀴 돌면 0으로 초기화
+    if(this.isTeam1Attack()){
+        this.plusPlayOrder1();
     } else {
-        this.playerOrder += 1;
+        this.plusPlayOrder2();
     }
 }
 
 // 타자의 타율을 가져오는 메소드
-game.attack = function (playerOrder, batterName1, battingAvg1) {
+game.attack = function (playerOrder, battingAvg1) {
     const order = playerOrder; // 0
-    const batterNameList = batterName1; // ['손현준', '진용식']
     const battingAvgList = battingAvg1 //[0.341, 0.453]
     const playerBattingAvg = battingAvgList[order];
     return playerBattingAvg;
@@ -190,7 +228,6 @@ game.attack = function (playerOrder, batterName1, battingAvg1) {
 
 // 타율에 따라 확률로 Condition을 얻는 메소드  
 game.isProbability = function (playerBattingAvg) {
-    console.log('isProbability 실행');
     const hit = playerBattingAvg;
     const strike = (1 - hit) / 2 - 0.05;
     const ball = (1 - hit) / 2 - 0.05;
@@ -222,7 +259,6 @@ game.updateCondition = function () {
     }
 }
 
-
 // 3 STRIKE -> 1OUT 바꿔주는 메소드
 game.checkAccumulation = function () {
     if (this.strikeCount === 3) {
@@ -232,29 +268,42 @@ game.checkAccumulation = function () {
     }
 }
 
+// 게임 종료인지 확인하는 메소드
+game.isGameOver = function() {
+    return this.inning === 7;
+}
+
 // 진행상황 확인하는 메소드
 game.progress = function () {
-    if (this.isInningOver()) {
-        this.conditionInit();
+    if (this.isGameOver()) {
         this.print();
+    }
+    else if (this.isInningOver()) {
+        this.isTeam1 = !this.isTeam1Attack(); // 이닝 끝나면 isTeam1 false로 바꿈.
+        this.print();
+        this.init();
     } else if (this.isOutOrHit()) {
         this.conditionInit();
         this.print();
         this.batterOrder();
-        // this.init();
-    } else if (this.is3StrikeOr4Ball()) {
+        this.init();
+    } else if (this.is3Strike()) {
         this.print();
         this.batterOrder();
-        // this.init();
+        this.init();
+    } else if (this.is4Ball()) {
+        this.print();
+        this.batterOrder();
+        this.init();
     } else if (this.condition === 'STRIKE' || this.condition === 'BALL') {
         this.print();
-        // this.init();
+        this.init();
     }
 }
 
 // 이닝이 끝났는지 확인하는 메소드
 game.isInningOver = function () {
-    return this.outCount === 3;
+    return this.outCount >= 3;
 }
 
 // 안타인지 아웃인지 확인하는 메소드
@@ -262,50 +311,77 @@ game.isOutOrHit = function () {
     return this.condition === 'HIT' || this.condition === 'OUT';
 }
 
-// 3STRIKE 인지 4BALL 인지 확인하는 메소드
-game.is3StrikeOr4Ball = function () {
-    return this.strikeCount === 3 || this.ballCount === 4;
+// 3STRIKE인지 확인하는 메소드
+game.is3Strike = function () {
+    return this.strikeCount === 3;
+}
+
+// 4BALL인지 확인하는 메소드
+game.is4Ball = function () {
+    return this.ballCount === 4;
 }
 
 // 타석 바뀌면 누적된 카운트 초기화하는 메소드
 game.conditionInit = function () {
+    this.strikeCount = 0;
+    this.ballCount = 0;
+}
+
+// 공격이 바뀌면 카운트를 전부 초기화하는 메소드
+game.inningInit = function () {
     console.log('conditionInit 실행');
     this.strikeCount = 0;
     this.ballCount = 0;
+    this.hitCount = 0;
+    this.outCount = 0;
+    if(this.isTeam1 === true){
+        this.inning ++;
+    }
 }
 
 // 이닝과 팀이름 알려주는 메소드 ex) 1회초 와이번즈 공격!
 game.inningPrint = function () {
     let outputStr = '';
-    if(this.inning % 2 != 0) {
+    if(this.isTeam1Attack()) {
         outputStr += `${this.inning}회초 ${info.teamName1}팀 공격!<br><br>`
-    } else if(this.inning % 2 === 0) {
-        outputStr += `${this.inning-1}회말 ${info.teamName2}팀 공격!<br><br>`
+    } else {
+        outputStr += `${this.inning}회말 ${info.teamName2}팀 공격!<br><br>`
+    }
+    return outputStr;
+}
+
+// 현재 타석에 선 선수 번호와 이름 호출하는 메소드
+game.playerPrint = function () {
+    let outputStr = '';
+    if(this.isTeam1Attack()){
+        outputStr += `${this.team1PlayerOrder+1}번 ${info.batterName1[this.team1PlayerOrder]} 선수!<br>`;
+    } else {
+        outputStr += `${this.team2PlayerOrder+1}번 ${info.batterName2[this.team2PlayerOrder]} 선수!<br>`;
     }
     return outputStr;
 }
 
 // 출력하는 메소드
 game.print = function () {
-    const S = this.strikeCount;
-    const B = this.ballCount;
-    const O = this.outCount;
-    const H = this.hitCount;
-
     let outputStr = '';
     outputStr += this.inningPrint(); // 1회초 와이번즈 공격!
-    outputStr += `${this.playerOrder+1}번 ${info.batterName1[this.playerOrder]} 선수!<br>`
-    
-    if (this.isInningOver()) {    
-        outputStr += `아웃! <br> ${this.strikeCount}S ${this.ballCount}B ${this.outCount}O<br>`;
+    outputStr += this.playerPrint(); // 1번 손현준 선수!
+    if (this.isGameOver()){
         outputStr += `최종 안타 수 : ${this.hitCount}개 입니다.<br>Inning Change`;
+    }
+    else if (this.isInningOver()) {  
+        this.inningInit();  
+        outputStr += `아웃! <br> ${this.strikeCount}S ${this.ballCount}B ${this.outCount}O<br>`;
     } else if (this.isOutOrHit()) {
         outputStr += `${this.condition}!<br>`;
         this.conditionInit();
         outputStr += `${this.strikeCount}S ${this.ballCount}B ${this.outCount}O`; // 0S 0B 0O
-    } else if (this.is3StrikeOr4Ball()) {
-        console.log('is3StrikeOr4Ball');
+    } else if (this.is3Strike()) {
         outputStr += `${this.condition}<br>아웃!<br>`;
+        this.conditionInit();
+        outputStr += `${this.strikeCount}S ${this.ballCount}B ${this.outCount}O`;
+    } else if (this.is4Ball()) {
+        outputStr += `4${this.condition}! <br>진루!<br>`;
         this.conditionInit();
         outputStr += `${this.strikeCount}S ${this.ballCount}B ${this.outCount}O`;
     } else {
