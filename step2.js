@@ -22,6 +22,7 @@ info = {
     askCount: 1
 };
 
+const CONDITION_LIST = [0, 1, 2, 3] // 0: 스트라이크, 1: 볼 2: 안타 3: 아웃
 // 게임 객체 
 game = {
     inningCount: 0
@@ -33,12 +34,33 @@ game.init = function () {
         this.inningCount++;
         let outputStr = '';
         outputStr += `${info.teamName1} VS ${info.teamName2}의 시합을 시작합니다.<br>`
+        output0.innerHTML = outputStr;
     }
     // this.pickRandomCondition();
     // this.updateCondition();
     // this.checkAccumulation();
     // this.progress();
 
+}
+
+// 타율에 따라 확률로 컨디션을 얻는 메소드  
+game.isProbability = function (batterBattingAvg) {
+    const hit = batterBattingAvg;
+    const strike = (1 - hit) / 2 - 0.05;
+    const ball = (1 - hit) / 2 - 0.05;
+    const out = 0.1;
+    const ballStrike = ball + strike;
+    const ballStrikeHit = ballStrike + hit;
+
+    if(Math.random() < strike) {
+        this.condition = CONDITION_LIST[0]; // 스트라이크 
+    } else if(Math.random() > strike && Math.random() < (ballStrike)){
+        this.condition = CONDITION_LIST[1]; // 볼
+    } else if(Math.random() > ballStrike && Math.random() < (ballStrikeHit)){
+        this.condition = CONDITION_LIST[2]; // 안타 
+    } else if(Math.random() > ballStrikeHit && Math.random() < 1){
+        this.condition = CONDITION_LIST[3]; // 아웃 
+    }
 }
 
 
@@ -105,7 +127,7 @@ info.askTeamName = function () {
 info.askToTeam1 = function () {
     for (let i = 0; i < 1; i++) {
         let batterName = prompt(`1팀의 ${i + 1}번 타자의 '이름'을 입력하세요!`);
-        let battingAvg = prompt(`1팀의 ${i + 1}번 타자의 '타율'을 입력하세요! ex) 0.333`);
+        let battingAvg = Number(prompt(`1팀의 ${i + 1}번 타자의 '타율'을 입력하세요! ex) 0.333`));
         this.batterName1.push(batterName);
         this.battingAvg1.push(battingAvg);
     }
@@ -115,7 +137,7 @@ info.askToTeam1 = function () {
 info.askToTeam2 = function () {
     for (let i = 0; i < 1; i++) {
         let batterName = prompt(`2팀의 ${i + 1}번 타자의 '이름'을 입력하세요!`);
-        let battingAvg = prompt(`2팀의 ${i + 1}번 타자의 '타율'을 입력하세요! ex) 0.432`);
+        let battingAvg = Number(prompt(`2팀의 ${i + 1}번 타자의 '타율'을 입력하세요! ex) 0.432`));
         this.batterName2.push(batterName);
         this.battingAvg2.push(battingAvg);
     }
