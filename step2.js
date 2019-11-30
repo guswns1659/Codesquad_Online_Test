@@ -1,3 +1,11 @@
+/*
+    -타율 물어볼 때 세자리수 입력하면 자동으로 0.321 바꿔주는 기능 추가 
+    -타율 세자리수 아니면 alert로 예외 처리
+    -데이터 입력 완료하고 처음 화면 띄워서 출력을 물어보기, 만약 입력 완료한 상태면 입력 완료 말하기 
+        -수정까지 추가하면 좋을 듯. 한번 잘 못 입력하면 불편..   
+*/
+
+
 // HTML elements
 const output1 = document.getElementById('output1'); // Team1 output
 const output2 = document.getElementById('output2'); // Team2 output
