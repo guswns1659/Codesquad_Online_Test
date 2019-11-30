@@ -7,6 +7,7 @@
 
 
 // HTML elements
+const output0 = document.getElementById('output0'); // 게임 결과 출력
 const output1 = document.getElementById('output1'); // Team1 output
 const output2 = document.getElementById('output2'); // Team2 output
 
@@ -21,34 +22,78 @@ info = {
     askCount: 1
 };
 
+// 게임 객체 
+game = {
+    inningCount: 0
+
+};
+
+game.init = function () {
+    if (this.inningCount === 0) {
+        this.inningCount++;
+        let outputStr = '';
+        outputStr += `${info.teamName1} VS ${info.teamName2}의 시합을 시작합니다.<br>`
+    }
+    // this.pickRandomCondition();
+    // this.updateCondition();
+    // this.checkAccumulation();
+    // this.progress();
+
+}
+
+
 // 팀 데이터 입력할건지 출력할건지 물어보는 메소드 
 info.askChoice = function () {
-    this.inputOrOutput = Number(prompt(`1.팀 데이터 '입력'\n2.팀 데이터 '출력'`));
+    this.userChoice = Number(prompt(`1.팀 데이터 '입력'\n2.팀 데이터 '출력\n3.게임 시작`));
 }
+
+// 사용자가 데이터 입력을 원할 때 기능하는 메소드
+info.userWantInput = function () {
+    this.askTeamName();
+    this.askBatterInfo();
+    this.askTeamName();
+    this.askBatterInfo();
+    init();
+}
+
+// 사용자가 팀 데이터 출력을 원할 때 기능하는 메소드
+info.userWantOutput = function () {
+    if (this.askCount === 1) {
+        alert('현재 입력된 데이터가 없습니다!\n먼저 팀 데이터를 입력해주세요!!');
+        init();
+    } else if (this.askCount != 1) {
+        this.printTeam1Info();
+        this.printTeam2Info();
+    }
+}
+
+// 사용자가 게임 시작을 원할 때 기능하는 메소드
+info.userWantPlay = function () {
+    if (this.askCount === 1) {
+        alert('현재 입력된 데이터가 없습니다!\n먼저 팀 데이터를 입력해주세요!!');
+        init();
+    } else {
+        game.init();
+    }
+} 
+
 
 // 사용자의 선택을 확인하는 메소드 
 info.checkChoice = function () {
-    if (this.inputOrOutput === 1) {
-        this.teamName();
-        this.askBatterInfo();
-        this.teamName();
-        this.askBatterInfo();
-        alert('팀 데이터 입력 완료!!');
-        this.printTeam1Info();
-        this.printTeam2Info();
-    } else if (this.inputOrOutput === 2) {
-        if (this.askCount === 1) {
-            alert('현재 입력된 데이터가 없습니다!\n먼저 팀 데이터를 입력해주세요!!');
-            init();
-        }
+    if (this.userChoice === 1) {
+        this.userWantInput();
+    } else if (this.userChoice === 2) {
+        this.userWantOutput();
+    } else if (this.userChoice === 3) {
+        this.userWantPlay();
     } else {
-        alert('1과 2만 입력할 수 있습니다.');
+        alert('1~3중에 입력해주세요!!');
         init();
     }
 }
 
 // 팀이름 입력을 요청하는 메소드
-info.teamName = function () {
+info.askTeamName = function () {
     if (this.askCount === 1) {
         this.teamName1 = prompt('1팀의 이름을 입력하세요. ex)손현준');
     } else {
@@ -58,7 +103,7 @@ info.teamName = function () {
 
 // Team1에게 정보 물어보는 메소드
 info.askToTeam1 = function () {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 1; i++) {
         let batterName = prompt(`1팀의 ${i + 1}번 타자의 '이름'을 입력하세요!`);
         let battingAvg = prompt(`1팀의 ${i + 1}번 타자의 '타율'을 입력하세요! ex) 0.333`);
         this.batterName1.push(batterName);
@@ -68,7 +113,7 @@ info.askToTeam1 = function () {
 
 // Team2에게 정보 물어보는 메소드
 info.askToTeam2 = function () {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 1; i++) {
         let batterName = prompt(`2팀의 ${i + 1}번 타자의 '이름'을 입력하세요!`);
         let battingAvg = prompt(`2팀의 ${i + 1}번 타자의 '타율'을 입력하세요! ex) 0.432`);
         this.batterName2.push(batterName);
