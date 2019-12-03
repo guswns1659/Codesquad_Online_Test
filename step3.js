@@ -1,5 +1,4 @@
 /* Step3 구현 
-    -버튼 추가 : 팀정보 입력, 팀 확인하기, 게임 시작하기.
     -게임 진행하며 출력화면 정상작동 구현. 
         -스코어도 반영, 
         -볼카운트
@@ -16,10 +15,10 @@ const attackOutput0 = document.querySelector('.attackOutput'), // 1회초 00팀 
 const inningOuput0 = document.querySelector('.inningOuput'), // 게임 결과 출력
     inningOuput = inningOuput0.querySelector('p'); // 게임 결과 출력
 
-const team1Output0 = document.querySelector('.team1Output') // Team1 output
-const team1Output = team1Output0.querySelector('p') // Team1 output
-const team2Output0 = document.querySelector('.team2Output'); // Team2 output
-const team2Output = team2Output0.querySelector('p'); // Team2 output
+const team1Output0 = document.querySelector('.team1Output'), // Team1 output
+    team1Output = team1Output0.querySelector('p'); // Team1 output
+const team2Output0 = document.querySelector('.team2Output'), // Team2 output
+    team2Output = team2Output0.querySelector('p'); // Team2 output
 
 //팀 정보 출력할 때 사용하는 HTML elements
 const container = document.querySelector('.container'),
@@ -28,8 +27,27 @@ const container = document.querySelector('.container'),
         scoreBoard1Team1 = scoreBoard1Row2.querySelector('p'),
         scoreBoard1Team2 = scoreBoard1Row3.querySelector('p');
 
-const scoreBoard1 = document.getElementById('scoreBoard1'); // 점수 표시하는 전광판
-const scoreBoard2 = document.getElementById('scoreBoard2'); // 볼카운트 표시하는 전광판
+// 전광판에 team1 점수 표시할 때 사용하는 HTML elements
+const team1Score1 = scoreBoard1Row2.querySelector('#team1Score1');
+const team1Score2 = scoreBoard1Row2.querySelector('#team1Score2');
+const team1Score3 = scoreBoard1Row2.querySelector('#team1Score3');
+const team1Score4 = scoreBoard1Row2.querySelector('#team1Score4');
+const team1Score5 = scoreBoard1Row2.querySelector('#team1Score5');
+const team1Score6 = scoreBoard1Row2.querySelector('#team1Score6');
+const team1Score7 = scoreBoard1Row2.querySelector('#team1Score7');
+
+// 전광판에 team1 점수 표시할 때 사용하는 HTML elements
+const team2Score1 = scoreBoard1Row3.querySelector('#team2Score1');
+const team2Score2 = scoreBoard1Row3.querySelector('#team2Score2');
+const team2Score3 = scoreBoard1Row3.querySelector('#team2Score3');
+const team2Score4 = scoreBoard1Row3.querySelector('#team2Score4');
+const team2Score5 = scoreBoard1Row3.querySelector('#team2Score5');
+const team2Score6 = scoreBoard1Row3.querySelector('#team2Score6');
+const team2Score7 = scoreBoard1Row3.querySelector('#team2Score7');
+
+
+
+ // 볼카운트 표시하는 전광판
 const CONDITION_LIST = ['STRIKE', 'BALL', 'HIT', 'OUT']
 
 // info객체
@@ -122,6 +140,8 @@ game = {
     outCount: 0,
     team1Score: 0,
     team2Score: 0,
+    team1inningScore: 0,
+    team2inningScore: 0,
     outputStr: ''
 };
 
@@ -238,9 +258,11 @@ game.checkAccumulation = function () {
     } else if (this.hitCount === 4) {
         if (this.isTeam1Attack()) {
             this.team1Score++;
+            this.team1inningScore++;
             this.hitCount = 0;
         } else {
             this.team2Score++;
+            this.team2inningScore++;
             this.hitCount = 0;
         }
     }
@@ -283,6 +305,9 @@ game.inningInit = function () {
     this.ballCount = 0;
     this.hitCount = 0;
     this.outCount = 0;
+
+    this.team1inningScore = 0;
+    this.team2inningScore = 0;
     if (this.isTeam1 === true) {
         this.inning++;
     }
@@ -345,19 +370,78 @@ game.isGameOverPrint = function () {
     // inningOuput.innerHTML = this.outputStr;
 }
 
+// team1의 이닝점수 전광판에 추가
+game.scoreCopytext1 = function() {
+    switch (this.inning){
+        case 1: 
+        team1Score1.innerHTML = this.team1inningScore;
+        break;
+        case 2: 
+        team1Score2.innerHTML = this.team1inningScore;
+        break;
+        case 3: 
+        team1Score3.innerHTML = this.team1inningScore;
+        break;
+        case 4: 
+        team1Score4.innerHTML = this.team1inningScore;
+        break;
+        case 5: 
+        team1Score5.innerHTML = this.team1inningScore;
+        break;
+        case 6: 
+        team1Score6.innerHTML = this.team1inningScore;
+        break;
+    }
+
+}
+// team2의 이닝점수 전광판에 추가
+game.scoreCopytext2 = function() {
+    switch (this.inning){
+        case 1: 
+        team2Score1.innerHTML = this.team2inningScore;
+        break;
+        case 2: 
+        team2Score2.innerHTML = this.team2inningScore;
+        break;
+        case 3: 
+        team2Score3.innerHTML = this.team2inningScore;
+        break;
+        case 4: 
+        team2Score4.innerHTML = this.team2inningScore;
+        break;
+        case 5: 
+        team2Score5.innerHTML = this.team2inningScore;
+        break;
+        case 6: 
+        team2Score6.innerHTML = this.team2inningScore;
+        break;
+    }
+}
+
+
+// 전광판에 점수 추가하는 메소드 
+game.addScoreBoard = function () {
+    if(this.isTeam1Attack()){
+        this.scoreCopytext1();
+    } else {
+        this.scoreCopytext2();
+    }
+}
+
 // 이닝 바뀔 때 결과 출력하는 메소드
 game.isInningOverPrint = function () {
     this.inningPrint();
     this.batterOrder();
+    this.addScoreBoard();
     this.isTeam1 = !this.isTeam1Attack(); // 공수 바뀌면 isTeam1 false로 바꿈.
     this.inningInit();
     this.outputStr += `${this.condition}! 아웃!<br>${this.strikeCount}S ${this.ballCount}B 3O<br>`;
     this.outputStr += `<br>Inning Change!! <br><br> 현재 스코어- ${this.team1Score} : ${this.team2Score}`;
     inningOuput.innerHTML = this.outputStr;
-    // this.print();
+    team1Score7.innerHTML = this.team1Score;
+    team2Score7.innerHTML = this.team2Score;
     this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
     // setTimeout(game.init, 5000);
-
 }
 
 // 아웃 또는 안타일때 결과 출력하는 메소드
