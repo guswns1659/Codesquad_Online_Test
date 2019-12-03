@@ -1,4 +1,5 @@
 /* Step3 구현 
+    -버튼 추가 : 팀정보 입력, 팀 확인하기, 게임 시작하기.
     -게임 진행하며 출력화면 정상작동 구현. 
         -스코어도 반영, 
         -볼카운트
@@ -6,15 +7,26 @@
 */
 
 // HTML elements
-const verseOutput = document.getElementById('verseOutput'); // 팀1 vs 팀2 출력
-const attackOutput = document.getElementById('attackOutput'); // 1회초 00팀 공격 출력 
-const inningOuput = document.getElementById('inningOuput'); // 게임 결과 출력
+
+// const verseOutput = document.getElementById('verseOutput'); // 팀1 vs 팀2 출력
+
+// 현재 이닝 수와 타자의 이름을 출력할 때 사용하는 HTML elements
+const attackOutput0 = document.querySelector('.attackOutput'), // 1회초 00팀 공격 출력 
+    attackOutput = attackOutput0.querySelector('p'); // 1회초 00팀 공격 출력 
+const inningOuput0 = document.querySelector('.inningOuput'), // 게임 결과 출력
+    inningOuput = inningOuput0.querySelector('p'); // 게임 결과 출력
 
 const team1Output0 = document.querySelector('.team1Output') // Team1 output
 const team1Output = team1Output0.querySelector('p') // Team1 output
-
 const team2Output0 = document.querySelector('.team2Output'); // Team2 output
 const team2Output = team2Output0.querySelector('p'); // Team2 output
+
+//팀 정보 출력할 때 사용하는 HTML elements
+const container = document.querySelector('.container'),
+    scoreBoard1Row2 = container.querySelector('.scoreBoard1Row2'),
+    scoreBoard1Row3 = container.querySelector('.scoreBoard1Row3'),
+        scoreBoard1Team1 = scoreBoard1Row2.querySelector('p'),
+        scoreBoard1Team2 = scoreBoard1Row3.querySelector('p');
 
 const scoreBoard1 = document.getElementById('scoreBoard1'); // 점수 표시하는 전광판
 const scoreBoard2 = document.getElementById('scoreBoard2'); // 볼카운트 표시하는 전광판
@@ -30,56 +42,6 @@ info = {
     askCount: 1
 };
 
-// 팀 데이터 입력할건지 출력할건지 물어보는 메소드 
-info.askChoice = function () {
-    this.userChoice = Number(prompt(`1.팀 데이터 '입력'\n2.팀 데이터 '출력\n3.게임 시작`));
-}
-
-// 사용자가 데이터 입력을 원할 때 기능하는 메소드
-info.userWantInput = function () {
-    this.askTeamName();
-    this.askBatterInfo();
-    this.askTeamName();
-    this.askBatterInfo();
-    init();
-}
-
-// 사용자가 팀 데이터 출력을 원할 때 기능하는 메소드
-info.userWantOutput = function () {
-    if (this.askCount === 1) {
-        alert('현재 입력된 데이터가 없습니다!\n먼저 팀 데이터를 입력해주세요!!');
-        init();
-    } else if (this.askCount != 1) {
-        this.printTeam1Info();
-        this.printTeam2Info();
-    }
-}
-
-// 사용자가 게임 시작을 원할 때 기능하는 메소드
-info.userWantPlay = function () {
-    if (this.askCount === 1) {
-        alert('현재 입력된 데이터가 없습니다!\n먼저 팀 데이터를 입력해주세요!!');
-        init();
-    } else {
-        game.init();
-    }
-}
-
-// 사용자의 선택을 확인하는 메소드 
-// this.userChoice === 7는 디버깅용
-info.checkChoice = function () {
-    if (this.userChoice === 1) {
-        this.userWantInput();
-    } else if (this.userChoice === 2) {
-        this.userWantOutput();
-    } else if (this.userChoice === 3) {
-        this.userWantPlay();
-    } else if (this.userChoice === 7) {
-    } else {
-        alert('1~3중에 입력해주세요!!');
-        init();
-    }
-}
 
 // 팀이름 입력을 요청하는 메소드
 info.askTeamName = function () {
@@ -92,7 +54,7 @@ info.askTeamName = function () {
 
 // Team1 타자 이름과 타율을 배열에 넣는 메소드
 info.askToTeam1 = function () {
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 5; i++) {
         let batterName = prompt(`1팀의 ${i + 1}번 타자의 '이름'을 입력하세요!`);
         let battingAvg = (Number(prompt(`1팀의 ${i + 1}번 타자의 '타율'을 입력하세요! ex) 333`)) / 1000);
         this.batterName1.push(batterName);
@@ -102,7 +64,7 @@ info.askToTeam1 = function () {
 
 // Team2에게 정보 물어보는 메소드
 info.askToTeam2 = function () {
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 5; i++) {
         let batterName = prompt(`2팀의 ${i + 1}번 타자의 '이름'을 입력하세요!`);
         let battingAvg = (Number(prompt(`2팀의 ${i + 1}번 타자의 '타율'을 입력하세요! ex) 432`)) / 1000);
         this.batterName2.push(batterName);
@@ -138,10 +100,12 @@ info.printCopyText = function (teamname, batterName, battingAvg, output) {
 // Team1 정보 출력하는 메소드
 info.printTeam1Info = function () {
     this.printCopyText(info.teamName1, info.batterName1, info.battingAvg1, team1Output);
+    scoreBoard1Team1.innerHTML = `${info.teamName1}`;
 }
 // Team2 정보 출력하는 메소드
 info.printTeam2Info = function () {
     this.printCopyText(info.teamName2, info.batterName2, info.battingAvg2, team2Output);
+    scoreBoard1Team2.innerHTML = `${info.teamName2}`;
 
 }
 
@@ -163,11 +127,11 @@ game = {
 
 // 게임 시작하는 메소드
 game.init = function () {
-    if (this.inning === 1) {
-        let outputStr = '';
-        outputStr += `${info.teamName1} VS ${info.teamName2}의 시합을 시작합니다.<br>`
-        verseOutput.innerHTML = outputStr;
-    }
+    // if (this.inning === 1) {
+    //     let outputStr = '';
+    //     outputStr += `${info.teamName1} VS ${info.teamName2}의 시합을 시작합니다.<br>`
+    //     verseOutput.innerHTML = outputStr;
+    // }
     let _this = game
     const playerBattingAvg = _this.whichTeam();
     _this.getProbability(playerBattingAvg);
@@ -372,12 +336,13 @@ game.inningPrint = function () {
 
 // 게임 종료할 때 결과 출력하는 메소드
 game.isGameOverPrint = function () {
-    this.currentAttackOutput = ``;
-    attackOutput.innerHTML = this.currentAttackOutput;
+    // this.currentAttackOutput = ``;
     this.outputStr += `경기종료<br>
         ${info.teamName1} VS ${info.teamName2}<br>
         ${this.team1Score} VS ${this.team2Score}<br>
         Thank you`;
+    attackOutput.innerHTML = this.outputStr;
+    // inningOuput.innerHTML = this.outputStr;
 }
 
 // 이닝 바뀔 때 결과 출력하는 메소드
@@ -426,7 +391,6 @@ game.is3StrikePrint = function () {
 
 // 4볼 일 때 결과 출력하는 메소드
 game.is4BallPrint = function () {
-
     this.inningPrint();
     this.outputStr += `4${this.condition}! <br>진루!<br>`;
     this.conditionInit();
@@ -435,11 +399,80 @@ game.is4BallPrint = function () {
     this.batterOrder();
     this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
     // setTimeout(game.init, 2000);
-
 }
 
-// 버튼 핸들러 함수
-function init() {
-    info.askChoice();
-    info.checkChoice();
+
+
+// // 버튼 핸들러 함수
+// function init() {
+//     info.askChoice();
+//     info.checkChoice();
+// }
+
+// 팀 데이터 입력 핸들러 함수
+function userWantInput () {
+    info.userWantInput();
+}
+
+// 팀 확인하기 핸들러 함수
+function userWantOutput () {
+    info.userWantOutput();
+}
+
+// 게임 시작하기 핸들러 함수
+function userWantPlay() {
+    game.init();
+}
+
+
+// 팀 데이터 입력할건지 출력할건지 물어보는 메소드 
+info.askChoice = function () {
+    this.userChoice = Number(prompt(`1.팀 데이터 '입력'\n2.팀 데이터 '출력\n3.게임 시작`));
+}
+
+// 사용자가 데이터 입력을 원할 때 기능하는 메소드
+info.userWantInput = function () {
+    this.askTeamName();
+    this.askBatterInfo();
+    this.askTeamName();
+    this.askBatterInfo();
+    // init();
+}
+
+
+// 사용자가 팀 데이터 출력을 원할 때 기능하는 메소드
+info.userWantOutput = function () {
+    if (this.askCount === 1) {
+        alert('현재 입력된 데이터가 없습니다!\n먼저 팀 데이터를 입력해주세요!!');
+        // init();
+    } else if (this.askCount != 1) {
+        this.printTeam1Info();
+        this.printTeam2Info();
+    }
+}
+
+// 사용자가 게임 시작을 원할 때 기능하는 메소드
+info.userWantPlay = function () {
+    if (this.askCount === 1) {
+        alert('현재 입력된 데이터가 없습니다!\n먼저 팀 데이터를 입력해주세요!!');
+        // init();
+    } else {
+        game.init();
+    }
+}
+
+// 사용자의 선택을 확인하는 메소드 
+// this.userChoice === 7는 디버깅용
+info.checkChoice = function () {
+    if (this.userChoice === 1) {
+        this.userWantInput();
+    } else if (this.userChoice === 2) {
+        this.userWantOutput();
+    } else if (this.userChoice === 3) {
+        this.userWantPlay();
+    } else if (this.userChoice === 7) {
+    } else {
+        alert('1~3중에 입력해주세요!!');
+        init();
+    }
 }

@@ -5,83 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <style>
-        div {
-            border: 1px solid black;
-        }
-
-        .container {
-            display: table;
-            width: 100%;
-        }
-
-        .containerRow {
-            display: table-row;
-        }
-
-        .scoreBoard1Row {
-            display: table-row;
-            border: 1px solid black;
-        }
-
-        .attackOutput {
-            display: table-cell;
-            padding: 0px 20px;
-            height: 150px;
-        }
-
-        .scoreBoard1 {
-            display: table-cell;
-            padding: 0px 20px;
-            height: 150px;
-            border: none;
-        }
-
-        .inningOuput {
-            display: table-cell;
-            padding: 0px 20px;
-            height: 150px;
-        }
-
-        .team1Output {
-            display: table-cell;
-            padding: 0px 20px;
-            height: 150px;
-        }
-
-        .scoreBoard2 {
-            display: table-cell;
-            padding: 0px 20px;
-            height: 150px;
-        }
-
-        .team2Output {
-            display: table-cell;
-            padding: 0px 20px;
-            height: 150px;
-        }
-
-        .jb-table-cell {
-            display: table-cell;
-            padding: 0px 20px;
-            height: 150px;
-        }
-
-        .cell {
-            display: table-cell;
-            padding: 0px 20px;
-            height: 30px;
-        }
-    </style>
+    <link rel="stylesheet" href="step3.css"/>
 </head>
 
 <body>
     <h2>야구 게임 시작해볼까요?? </h2>
     <div id="div1">
-        <button onclick="init()">클릭!!</button>
+        <button onclick="userWantInput()">팀 데이터 입력</button>
+        <button onclick="userWantOutput()">팀 확인하기</button>
+        <button onclick="userWantPlay()">게임시작하기</button>
     </div>
     <div class="container">
-        <div class="scoreBoard1Row">
+        <div class="scoreBoard1Row1">
             <div class="cell">0</div>
             <div class="cell">1회</div>
             <div class="cell">2회</div>
@@ -91,7 +26,7 @@
             <div class="cell">6회</div>
             <div class="cell">Total</div>
         </div>
-        <div class="scoreBoard1Row">
+        <div class="scoreBoard1Row2">
             <p>1팀</p>
             <div class="cell">0</div>
             <div class="cell">0</div>
@@ -101,7 +36,7 @@
             <div class="cell">5</div>
             <div class="cell">11</div>
         </div>
-        <div class="scoreBoard1Row">
+        <div class="scoreBoard1Row3">
             <p>2팀</p>
             <div class="cell">0</div>
             <div class="cell">1</div>
@@ -116,11 +51,9 @@
         <div class="containerRow">
             <div class="attackOutput">
                 <p>attackOutput</p>
-                <p>1회초<br>넥센팀 공격!<br>1번 타자<br>손현준!</p>
             </div>
             <div class="inningOuput">
                 <p>inningOuput</p>
-                <p>STRIKE!<br>1S 0B 0O</p>
             </div>
             <div class="team1Output">
                 <p>team1Output</p>
