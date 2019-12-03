@@ -1,24 +1,24 @@
 /* Step3 구현 
-
+    -게임 진행하며 출력화면 정상작동 구현. 
+        -스코어도 반영, 
+        -볼카운트
+        -투구 수, 삼진 수, 안타 수 반영
 */
 
 // HTML elements
 const verseOutput = document.getElementById('verseOutput'); // 팀1 vs 팀2 출력
 const attackOutput = document.getElementById('attackOutput'); // 1회초 00팀 공격 출력 
 const inningOuput = document.getElementById('inningOuput'); // 게임 결과 출력
-const team1Output = document.getElementById('team1Output'); // Team1 output
-const team2Output = document.getElementById('team2Output'); // Team2 output
+
+const team1Output0 = document.querySelector('.team1Output') // Team1 output
+const team1Output = team1Output0.querySelector('p') // Team1 output
+
+const team2Output0 = document.querySelector('.team2Output'); // Team2 output
+const team2Output = team2Output0.querySelector('p'); // Team2 output
+
 const scoreBoard1 = document.getElementById('scoreBoard1'); // 점수 표시하는 전광판
 const scoreBoard2 = document.getElementById('scoreBoard2'); // 볼카운트 표시하는 전광판
 const CONDITION_LIST = ['STRIKE', 'BALL', 'HIT', 'OUT']
-
-
-attackOutput.innerHTML ='1회초 1팀 공격! <br><br> 1번 000 선수!';
-verseOutput.innerHTML = '1팀 vs 2팀 게임 시작합니다.';
-scoreBoard1.innerHTML = '점수 표시하는 전광판';
-scoreBoard2.innerHTML = '볼카운트 표시하는 전광판';
-
-
 
 // info객체
 // team1과 team2 선수들의 이름과 타율을 저장 
@@ -90,7 +90,7 @@ info.askTeamName = function () {
     }
 }
 
-// Team1에게 정보 물어보는 메소드
+// Team1 타자 이름과 타율을 배열에 넣는 메소드
 info.askToTeam1 = function () {
     for (let i = 0; i < 2; i++) {
         let batterName = prompt(`1팀의 ${i + 1}번 타자의 '이름'을 입력하세요!`);
@@ -127,10 +127,10 @@ info.printCopyText = function (teamname, batterName, battingAvg, output) {
     let batter = batterName;
     let batting = battingAvg;
     let outputHTML = output;
-    outputText += `${name}팀 정보!!<br>`;
+    outputText += `${name}팀<br>`;
     for (let i = 0; i < batter.length; i++) {
-        outputText += `${i + 1}번 타자 - 이름 : ${batter[i]} 
-        / 타율 : ${batting[i]}<br>`;
+        outputText += `${i + 1}번 ${batter[i]} 
+        / ${batting[i]}<br>`;
     }
     outputHTML.innerHTML = outputText;
 }
