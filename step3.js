@@ -39,10 +39,10 @@ const team2Score5 = scoreBoard1Row3.querySelector('#team2Score5');
 const team2Score6 = scoreBoard1Row3.querySelector('#team2Score6');
 const team2Score7 = scoreBoard1Row3.querySelector('#team2Score7');
 
-// SBO카운트 출력과 HSH(투구수, 삼진수, 안타수) 출력할 때 사용하는 HTML elements
+// SBO카운트 출력과 PSH(투구수, 삼진수, 안타수) 출력할 때 사용하는 HTML elements
 const scoreBoard2 = document.querySelector('.scoreBoard2'),
     sboCount = scoreBoard2.querySelector('#sboCount'),
-    HSHCount = scoreBoard2.querySelector('#HSHCount');
+    PSHCount = scoreBoard2.querySelector('#PSHCount');
 
 // 컨디션을 모아놓은 리스트
 const CONDITION_LIST = ['STRIKE', 'BALL', 'HIT', 'OUT']
@@ -140,7 +140,13 @@ game = {
     outputStr: '',
     sboCountStrike : '',
     sboCountBall : '',
-    sboCountOut : ''
+    sboCountOut : '',
+    team1PitchCount : 0,
+    team2PitchCount : 0,
+    team1SOCount : 0,
+    team2SOCount : 0,
+    team1HitCount : 0,
+    team2HitCount : 0
 };
 
 // 게임 시작하는 메소드
@@ -151,6 +157,7 @@ game.init = function () {
     _this.updateCondition();
     _this.checkAccumulation();
     _this.progress();
+    // _this.printPshCount();
 }
 
 // team1인지 team2에 따라 타순을 가져오는 메소드
@@ -357,6 +364,7 @@ game.isNormalPrint = function () {
     this.getSboCountBall();
     this.getSboCountOut();
     this.sboinit();
+    this.printPshCount();
 }
 
 // 진행상황 확인하는 메소드
@@ -468,8 +476,10 @@ game.isInningOverPrint = function () {
     this.inningPrint();
     this.batterOrder();
     this.addScoreBoard();
-    this.isTeam1 = !this.isTeam1Attack(); // 공수 바뀌면 isTeam1 false로 바꿈.
+    this.isSOCount();
     this.getSboCountOut();
+    this.printPshCount();
+    this.isTeam1 = !this.isTeam1Attack(); // 공수 바뀌면 isTeam1 false로 바꿈.
     this.inningInit();
     this.outputStr += `${this.condition}! 아웃!<br>${this.strikeCount}S ${this.ballCount}B 3O<br>`;
     this.outputStr += `<br>Inning Change!! <br><br> 현재 스코어- ${this.team1Score} : ${this.team2Score}`;
@@ -490,6 +500,8 @@ game.isOutOrHitPrint = function () {
     inningOuput.innerHTML = this.outputStr;
     this.batterOrder();
     this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
+    this.getHitCount();
+    this.printPshCount();
     // setTimeout(game.init, 2000);
 }
 
@@ -503,6 +515,8 @@ game.is3StrikePrint = function () {
     inningOuput.innerHTML = this.outputStr;
     this.batterOrder();
     this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
+    this.getSOCount();
+    this.printPshCount();
     // setTimeout(game.init, 2000);
 }
 
@@ -515,10 +529,47 @@ game.is4BallPrint = function () {
     inningOuput.innerHTML = this.outputStr;
     this.batterOrder();
     this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
+    this.printPshCount();
     // setTimeout(game.init, 2000);
 }
 
+// psh출력 하는 메소드
+game.printPshCount = function () {
+    if(this.isTeam1Attack()){
+        this.team1PitchCount++;
+        PSHCount.innerHTML = `투구 : ${this.team1PitchCount}개<br>탈삼진 : ${this.team1SOCount}개<br>안타 : ${this.team1HitCount}개`;
+    } else {
+        this.team2PitchCount++;
+        PSHCount.innerHTML = `투구 : ${this.team2PitchCount}개<br>탈삼진 : ${this.team2SOCount}개<br>안타 : ${this.team2HitCount}개`;
+    }
+}
 
+// 공수 전환 될 때 마지막 아웃이 삼진아웃이었는지 물어보는 메소드
+game.isSOCount = function () {
+    if(this.is3Strike()){
+        this.getSOCount();
+    } 
+}
+
+// 각 팀의 삼진 아웃 개수를 세는 메소드 
+game.getSOCount = function () {
+    if(this.isTeam1Attack()){
+        this.team1SOCount++;
+    } else {
+        this.team2SOCount++;
+    }
+}
+
+// 각 팀의 안타개수를 세는 메소드 
+game.getHitCount = function () {
+    if(this.condition === "HIT") {
+        if(this.isTeam1Attack()){
+            this.team1HitCount++;
+        } else {
+            this.team2HitCount++;
+        }
+    }
+}
 
 // 팀 데이터 입력 핸들러 함수
 function userWantInput() {
