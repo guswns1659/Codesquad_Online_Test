@@ -1,0 +1,74 @@
+div {
+    border: 1px solid black;
+}
+
+.container {
+    display: table;
+    width: 100%;
+}
+
+.containerRow {
+    display: table-row;
+}
+
+.scoreBoard1Row1 {
+    display: table-row;
+    border: 1px solid black;
+}
+.scoreBoard1Row2 {
+    display: table-row;
+    border: 1px solid black;
+}
+.scoreBoard1Row3 {
+    display: table-row;
+    border: 1px solid black;
+}
+
+.attackOutput {
+    display: table-cell;
+    padding: 0px 20px;
+    height: 150px;
+}
+
+.scoreBoard1 {
+    display: table-cell;
+    padding: 0px 20px;
+    height: 150px;
+    border: none;
+}
+
+.inningOuput {
+    display: table-cell;
+    padding: 0px 20px;
+    height: 150px;
+}
+
+.team1Output {
+    display: table-cell;
+    padding: 0px 20px;
+    height: 150px;
+}
+
+.scoreBoard2 {
+    display: table-cell;
+    padding: 0px 20px;
+    height: 150px;
+}
+
+.team2Output {
+    display: table-cell;
+    padding: 0px 20px;
+    height: 150px;
+}
+
+.jb-table-cell {
+    display: table-cell;
+    padding: 0px 20px;
+    height: 150px;
+}
+
+.cell {
+    display: table-cell;
+    padding: 0px 20px;
+    height: 30px;
+}
