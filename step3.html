@@ -6,6 +6,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        div {
+            border: 1px solid black;
+        }
+
+        .container {
+            display: table;
+            width: 100%;
+        }
+
+        .containerRow {
+            display: table-row;
+        }
+
+        .scoreBoard1Row {
+            display: table-row;
+            border: 1px solid black;
+        }
+
+        .attackOutput {
+            display: table-cell;
+            padding: 0px 20px;
+            height: 150px;
+        }
+
+        .scoreBoard1 {
+            display: table-cell;
+            padding: 0px 20px;
+            height: 150px;
+            border: none;
+        }
+
+        .inningOuput {
+            display: table-cell;
+            padding: 0px 20px;
+            height: 150px;
+        }
+
+        .team1Output {
+            display: table-cell;
+            padding: 0px 20px;
+            height: 150px;
+        }
+
+        .scoreBoard2 {
+            display: table-cell;
+            padding: 0px 20px;
+            height: 150px;
+        }
+
+        .team2Output {
+            display: table-cell;
+            padding: 0px 20px;
+            height: 150px;
+        }
+
+        .jb-table-cell {
+            display: table-cell;
+            padding: 0px 20px;
+            height: 150px;
+        }
+
+        .cell {
+            display: table-cell;
+            padding: 0px 20px;
+            height: 30px;
+        }
+    </style>
 </head>
 
 <body>
@@ -13,26 +81,58 @@
     <div id="div1">
         <button onclick="init()">클릭!!</button>
     </div>
-    <div>
-        <div id="verseOutput" style=" width: 33%;">
-            <!-- 팀1 vs 팀2 출력 영역 -->
+    <div class="container">
+        <div class="scoreBoard1Row">
+            <div class="cell">0</div>
+            <div class="cell">1회</div>
+            <div class="cell">2회</div>
+            <div class="cell">3회</div>
+            <div class="cell">4회</div>
+            <div class="cell">5회</div>
+            <div class="cell">6회</div>
+            <div class="cell">Total</div>
         </div>
-        <div id="attackOutput" style="border: 1px solid black; width: 23%;">
-            <!-- 1회초 1팀 공격 출력 영역 -->
+        <div class="scoreBoard1Row">
+            <p>1팀</p>
+            <div class="cell">0</div>
+            <div class="cell">0</div>
+            <div class="cell">2</div>
+            <div class="cell">3</div>
+            <div class="cell">4</div>
+            <div class="cell">5</div>
+            <div class="cell">11</div>
         </div>
-        <div id="inningOuput" style="border: 1px solid black; float: left; width: 23%;">
-            <!-- 게임 결과 출력 영역 -->
+        <div class="scoreBoard1Row">
+            <p>2팀</p>
+            <div class="cell">0</div>
+            <div class="cell">1</div>
+            <div class="cell">2</div>
+            <div class="cell">3</div>
+            <div class="cell">4</div>
+            <div class="cell">5</div>
+            <div class="cell">19</div>
         </div>
-        <div id="team1Output" style="border: 1px solid blue; float: left; width: 23%;">
-            <!-- 첫번째 팀 출력 영역 -->
-        </div>
-        <div id="scoreBoard2" style="border: 1px solid gold; float: left; width: 23%;">
-            <!-- 전광판2 출력 영역 -->
-        </div>
-        <div id="team2Output" style="border: 1px solid red; float: left; width: 23%;">
-            <!-- 두번째 팀 출력 영역 -->
+    </div>
+    <div class="container">
+        <div class="containerRow">
+            <div class="attackOutput">
+                <p>attackOutput</p>
+            </div>
+            <div class="inningOuput">
+                <p>inningOuput</p>
+            </div>
+            <div class="team1Output">
+                <p>team1Output</p>
+            </div>
+            <div class="scoreBoard2">
+                <p>scoreBoard2</p>
+            </div>
+            <div class="team2Output">
+                <p>team2Output</p>
+            </div>
         </div>
     </div>
     <script src="step3.js"></script>
 </body>
+
 </html>

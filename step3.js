@@ -8,10 +8,17 @@ const attackOutput = document.getElementById('attackOutput'); // 1회초 00팀 �
 const inningOuput = document.getElementById('inningOuput'); // 게임 결과 출력
 const team1Output = document.getElementById('team1Output'); // Team1 output
 const team2Output = document.getElementById('team2Output'); // Team2 output
-const scoreBoard2 = document.getElementById('scoreBoard2'); // 전광판 2
+const scoreBoard1 = document.getElementById('scoreBoard1'); // 점수 표시하는 전광판
+const scoreBoard2 = document.getElementById('scoreBoard2'); // 볼카운트 표시하는 전광판
 const CONDITION_LIST = ['STRIKE', 'BALL', 'HIT', 'OUT']
 
-scoreBoard2.innerHTML = '스코어보드';
+
+attackOutput.innerHTML ='1회초 1팀 공격! <br><br> 1번 000 선수!';
+verseOutput.innerHTML = '1팀 vs 2팀 게임 시작합니다.';
+scoreBoard1.innerHTML = '점수 표시하는 전광판';
+scoreBoard2.innerHTML = '볼카운트 표시하는 전광판';
+
+
 
 // info객체
 // team1과 team2 선수들의 이름과 타율을 저장 
