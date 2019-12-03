@@ -1,5 +1,5 @@
 /* Step2 리팩토링 요소
-    - 타순이 1번씩 겹침
+    - 결과가 안나옴. 
     - 타율 세자리수 아니면 alert로 다시 입력 요청
     - 데이터 입력 완료하고 처음 화면 띄워서 출력을 물어보기, 만약 입력 완료한 상태면 입력 완료 말하기 
         -수정까지 추가하면 좋을 듯. 한번 잘 못 입력하면 불편..    
@@ -366,24 +366,22 @@ game.inningPrint = function () {
 
 // 게임 종료할 때 결과 출력하는 메소드
 game.isGameOverPrint = function () {
-
     this.currentAttackOutput = ``;
     attackOutput.innerHTML = this.currentAttackOutput;
     this.outputStr += `경기종료<br>
         ${info.teamName1} VS ${info.teamName2}<br>
         ${this.team1Score} VS ${this.team2Score}<br>
         Thank you`;
-
 }
 
 // 이닝 바뀔 때 결과 출력하는 메소드
 game.isInningOverPrint = function () {
-
     this.inningPrint();
+    this.batterOrder();
     this.isTeam1 = !this.isTeam1Attack(); // 공수 바뀌면 isTeam1 false로 바꿈.
     this.inningInit();
     this.outputStr += `${this.condition}! 아웃!<br>${this.strikeCount}S ${this.ballCount}B 3O<br>`;
-    this.outputStr += `Inning Change!! <br> 현재 스코어- ${this.team1Score} : ${this.team2Score}`;
+    this.outputStr += `<br>Inning Change!! <br><br> 현재 스코어- ${this.team1Score} : ${this.team2Score}`;
     inningOuput.innerHTML = this.outputStr;
     // this.print();
     this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
