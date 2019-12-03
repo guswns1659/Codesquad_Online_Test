@@ -33,4 +33,6 @@
 * setTimeout(game.init, 3000);
 
 ### 코드 리팩토링 
-* 전역변수 사용하니 출력할 때 undefined 출력. 지역변수로 변경
+* 전역변수 사용할 때 undefined 출력 되는 버그 수정.
+* game.progress 메소드와 game.print 메소드 중복 코드 제거 및 기능 분할.
+* 모든 메소드 15줄 이하로 구현 완료. 
