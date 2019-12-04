@@ -1,5 +1,6 @@
 // Step-1 
 // By Hyunjun
+// 2019.12.04
 
 //HTML elements for output
 const container = document.querySelector(".container"),
