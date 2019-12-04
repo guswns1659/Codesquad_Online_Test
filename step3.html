@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h2>야구 게임 시작해볼까요?? </h2>
+    <h2>남녀노소 즐기는 야구게임!</h2>
     <div id="div1">
         <button onclick="userWantInput()">팀 데이터 입력</button>
         <button onclick="userWantModify()">팀 데이터 수정</button>
@@ -18,7 +18,7 @@
     </div>
     <div class="container">
         <div class="scoreBoard1Row1">
-            <div class="cell">전광판</div>
+            <div class="cell"></div>
             <div class="cell">1회</div>
             <div class="cell">2회</div>
             <div class="cell">3회</div>
@@ -28,7 +28,7 @@
             <div class="cell">Total</div>
         </div>
         <div class="scoreBoard1Row2">
-            <p>1팀</p>
+            <p class="cell">1팀</p>
             <div class="cell" id="team1Score1">0</div>
             <div class="cell" id="team1Score2">0</div>
             <div class="cell" id="team1Score3">0</div>
@@ -38,7 +38,7 @@
             <div class="cell" id="team1Score7">0</div>
         </div>
         <div class="scoreBoard1Row3">
-            <p>2팀</p>
+            <p class="cell">2팀</p>
             <div class="cell" id="team2Score1">0</div>
             <div class="cell" id="team2Score2">0</div>
             <div class="cell" id="team2Score3">0</div>
@@ -51,21 +51,21 @@
     <div class="container">
         <div class="containerRow">
             <div class="attackOutput">
-                <p>attackOutput</p>
+                <p>현재 이닝 및 선수 출력</p>
             </div>
             <div class="inningOuput">
-                <p>inningOuput</p>
+                <p>현재 타자의 볼 카운트 출력</p>
             </div>
             <div class="team1Output">
-                <p>team1Output</p>
+                <p>1팀 선수 명단과 타율 출력</p>
             </div>
             <div class="scoreBoard2">
-                <p id="teamName">scoreBoard2</p>
+                <p id="teamName">볼카운트 출력 전광판</p>
                 <p id="sboCount"></p>
                 <p id="PSHCount"></p>
             </div>
             <div class="team2Output">
-                <p>team2Output</p>
+                <p>2팀 선수 명단과 타율 출력</p>
             </div>
         </div>
     </div>

@@ -1,73 +1,81 @@
-div {
-    border: 1px solid black;
+button {
+    margin: 5px;
+    font-size: 15px;
 }
 
 .container {
     display: table;
     width: 100%;
+    margin: 5px;
+    border: 1px solid black;
 }
 .containerRow {
     display: table-row;
+    border: 1px solid black;
 }
 
 .scoreBoard1Row1 {
     display: table-row;
-    border: 1px solid black;
 }
 .scoreBoard1Row2 {
     display: table-row;
-    border: 1px solid black;
+
 }
 .scoreBoard1Row3 {
     display: table-row;
-    border: 1px solid black;
 }
 
 .attackOutput {
     display: table-cell;
     padding: 0px 20px;
     height: 150px;
+    border: 1px solid black;
 }
 
 .scoreBoard1 {
     display: table-cell;
     padding: 0px 20px;
     height: 150px;
-    border: none;
+    border: 1px solid black;
 }
 
 .inningOuput {
     display: table-cell;
     padding: 0px 20px;
     height: 150px;
+    border: 1px solid black;
 }
 
 .team1Output {
     display: table-cell;
     padding: 0px 20px;
     height: 150px;
+    border: 1px solid red;
 }
 
 .scoreBoard2 {
     display: table-cell;
     padding: 0px 20px;
     height: 150px;
+    border: 1px solid green;
 }
 
 .team2Output {
     display: table-cell;
     padding: 0px 20px;
     height: 150px;
+    border: 1px solid blue;
 }
 
-.jb-table-cell {
+/* .jb-table-cell {
     display: table-cell;
     padding: 0px 20px;
     height: 150px;
-}
+} */
 
 .cell {
     display: table-cell;
     padding: 0px 20px;
-    height: 10px;
+    height: 20px;
+    border: 0.5px solid black;
 }

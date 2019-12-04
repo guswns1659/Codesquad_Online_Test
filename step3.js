@@ -1,12 +1,3 @@
-/* Step3 구현 
-    -사용자에게 스킵 권한 주기.
-*/
-/* step3 버그 수정
-    - 전광판 버그 수정 0
-    - 게임 끝나면 inningOutput 초기화 하기 0 
-    - 팀 데이터 입력 수정할 때 askcount 초기화 0
-*/
-
 // HTML elements
 // 현재 이닝 수와 타자의 이름을 출력할 때 사용하는 HTML elements
 const attackOutput0 = document.querySelector('.attackOutput'), // 1회초 00팀 공격 출력 
@@ -136,11 +127,15 @@ info.askChoice = function () {
 
 // 사용자가 데이터 입력을 원할 때 기능하는 메소드
 info.userWantInput = function () {
-    this.askTeamName();
-    this.askBatterInfo();
-    this.askTeamName();
-    this.askBatterInfo();
-    // init();
+    if(this.askCount != 1){
+        alert('이미 팀 데이터를 입력했습니다.'+
+        '\n수정을 원하면 팀 데이터 수정 클릭해주세요!');
+    } else {
+        this.askTeamName();
+        this.askBatterInfo();
+        this.askTeamName();
+        this.askBatterInfo();
+    }
 }
 
 // 사용자가 데이터 수정을 원할 때 기능하는 메소드
