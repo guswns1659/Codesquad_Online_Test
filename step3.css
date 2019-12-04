@@ -9,10 +9,6 @@ button {
     margin: 5px;
     border: 1px solid black;
 }
-.containerRow {
-    display: table-row;
-    border: 1px solid black;
-}
 
 .scoreBoard1Row1 {
     display: table-row;
@@ -25,14 +21,20 @@ button {
     display: table-row;
 }
 
-.attackOutput {
+.cell {
     display: table-cell;
     padding: 0px 20px;
-    height: 150px;
+    height: 20px;
+    border: 0.5px solid black;
+}
+
+
+.containerRow {
+    display: table-row;
     border: 1px solid black;
 }
 
-.scoreBoard1 {
+.attackOutput {
     display: table-cell;
     padding: 0px 20px;
     height: 150px;
@@ -67,15 +69,3 @@ button {
     border: 1px solid blue;
 }
 
-/* .jb-table-cell {
-    display: table-cell;
-    padding: 0px 20px;
-    height: 150px;
-} */
-
-.cell {
-    display: table-cell;
-    padding: 0px 20px;
-    height: 20px;
-    border: 0.5px solid black;
-}
