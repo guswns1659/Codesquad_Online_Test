@@ -61,7 +61,7 @@ info.askBatterInfo = function () {
 
 // Team1에게 타자 정보를 물어보는 메소드
 info.askToTeam1 = function () {
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 9; i++) {
         let batterName = prompt(`1팀의 ${i + 1}번 타자의 '이름'을 입력하세요! ex) 양준혁`);
         let battingAvg = (Number(prompt(`1팀의 ${i + 1}번 타자의 ('타율' X 1000)을 입력하세요!
         예시) 333
@@ -79,7 +79,7 @@ info.askToTeam1 = function () {
 
 // Team2에게 타자 정보 물어보는 메소드
 info.askToTeam2 = function () {
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 9; i++) {
         let batterName = prompt(`2팀의 ${i + 1}번 타자의 '이름'을 입력하세요! ex) 양준혁`);
         let battingAvg = (Number(prompt(`2팀의 ${i + 1}번 타자의 ('타율' X 1000)을 입력하세요!
         예시) 333
