@@ -16,8 +16,6 @@ const team2Output0 = document.querySelector('.team2Output'), // Team2 output
 //볼 컨디션을 모은 배열
 const CONDITION_LIST = ['STRIKE', 'BALL', 'HIT', 'OUT']
 
-
-
 // info객체
 // team1과 team2 선수들의 이름과 타율을 저장 
 info = {
@@ -306,7 +304,7 @@ game.isInningOverPrint = function () {
     this.outputStr += `<br>Inning Change!! <br><br> 현재 스코어- ${this.team1Score} : ${this.team2Score}`;
     inningOuput.innerHTML = this.outputStr;
     this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
-    setTimeout(game.init, 1000);
+    setTimeout(game.init, 4000);
 }
 
 // 현재 이닝과 선수 이름을 알려주는 메소드 ex) 1회초 와이번즈 공격!
@@ -381,7 +379,7 @@ game.isOutOrHitPrint = function () {
     inningOuput.innerHTML = this.outputStr;
     this.batterOrder();
     this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
-    setTimeout(game.init, 500);
+    setTimeout(game.init, 700);
 }
 
 // 타석 바뀌면 누적된 카운트 초기화하는 메소드
@@ -405,7 +403,7 @@ game.is3StrikePrint = function () {
     inningOuput.innerHTML = this.outputStr;
     this.batterOrder();
     this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
-    setTimeout(game.init, 500);
+    setTimeout(game.init, 700);
 }
 
 // 4BALL인지 확인하는 메소드
@@ -423,7 +421,7 @@ game.is4BallPrint = function () {
     // this.print();
     this.batterOrder();
     this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
-    setTimeout(game.init, 500);
+    setTimeout(game.init, 700);
 }
 
 // 1스트라이크 또는 1볼 일 때 출력하는 메소드
@@ -431,7 +429,7 @@ game.isNormalPrint = function () {
     this.inningPrint();
     this.outputStr += `${this.condition}!<br>${this.strikeCount}S ${this.ballCount}B ${this.outCount}O<br><br>`;
     inningOuput.innerHTML = this.outputStr;
-    setTimeout(game.init, 100);
+    setTimeout(game.init, 700);
 }
 
 // 팀 데이터 입력 핸들러 함수
@@ -453,3 +451,10 @@ function userWantPlay() {
 function userWantModify() {
     info.userWantModify();
 }
+
+function init() {
+    alert('신나는 야구게임 시작해볼까요?'+
+    '\n\n먼저 팀 데이터를 입력해주세요!');
+}
+
+init();
