@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Step3</title>
     <link rel="stylesheet" href="step3.css"/>
 </head>
 
@@ -12,6 +12,7 @@
     <h2>야구 게임 시작해볼까요?? </h2>
     <div id="div1">
         <button onclick="userWantInput()">팀 데이터 입력</button>
+        <button onclick="userWantModify()">팀 데이터 수정</button>
         <button onclick="userWantOutput()">팀 확인하기</button>
         <button onclick="userWantPlay()">게임시작하기</button>
     </div>
@@ -59,7 +60,7 @@
                 <p>team1Output</p>
             </div>
             <div class="scoreBoard2">
-                <p>scoreBoard2</p>
+                <p id="teamName">scoreBoard2</p>
                 <p id="sboCount"></p>
                 <p id="PSHCount"></p>
             </div>
