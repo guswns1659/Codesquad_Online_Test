@@ -17,9 +17,9 @@ info.userWantInput = function () {
 // 팀이름 입력을 요청하는 메소드
 info.askTeamName = function () {
     if (this.askCount === 1) {
-        this.teamName1 = prompt('1팀의 이름을 입력하세요. ex)손현준');
+        this.teamName1 = prompt('1팀의 이름을 입력하세요. ex) SK 와이번즈');
     } else {
-        this.teamName2 = prompt('2팀의 이름을 입력하세요.');
+        this.teamName2 = prompt('2팀의 이름을 입력하세요. ex) 삼성 라이온즈');
     }
 }
 
@@ -33,11 +33,19 @@ info.askBatterInfo = function () {
     this.askCount++;
 }
 
-// Team1 타자 이름과 타율을 배열에 넣는 메소드
+// Team1에게 타자 정보를 물어보는 메소드
 info.askToTeam1 = function () {
     for (let i = 0; i < 7; i++) {
-        let batterName = prompt(`1팀의 ${i + 1}번 타자의 '이름'을 입력하세요!`);
-        let battingAvg = (Number(prompt(`1팀의 ${i + 1}번 타자의 '타율'을 입력하세요! ex) 333`)) / 1000);
+        let batterName = prompt(`1팀의 ${i + 1}번 타자의 '이름'을 입력하세요! ex) 양준혁`);
+        let battingAvg = (Number(prompt(`1팀의 ${i + 1}번 타자의 ('타율' X 1000)을 입력하세요!
+        예시) 333
+        주의) 101 ~ 499만 입력 가능`)) / 1000);
+        while (battingAvg < 0.101 || battingAvg > 0.499) {
+            alert('101 ~ 499 사이 숫자만 입력해주세요');
+            battingAvg = (Number(prompt(`팀의 ${i + 1}번 타자의 ('타율' X 1000)을 입력하세요!
+            예시) 333
+            주의) 101 ~ 499만 입력 가능`)) / 1000);
+        }
         this.batterName1.push(batterName);
         this.battingAvg1.push(battingAvg);
     }
@@ -46,8 +54,16 @@ info.askToTeam1 = function () {
 // Team2 타자 이름과 타율을 배열에 넣는 메소드
 info.askToTeam2 = function () {
     for (let i = 0; i < 7; i++) {
-        let batterName = prompt(`2팀의 ${i + 1}번 타자의 '이름'을 입력하세요!`);
-        let battingAvg = (Number(prompt(`2팀의 ${i + 1}번 타자의 '타율'을 입력하세요! ex) 432`)) / 1000);
+        let batterName = prompt(`2팀의 ${i + 1}번 타자의 '이름'을 입력하세요! ex) 양준혁`);
+        let battingAvg = (Number(prompt(`2팀의 ${i + 1}번 타자의 ('타율' X 1000)을 입력하세요!
+        예시) 333
+        주의) 101 ~ 499만 입력 가능`)) / 1000);
+        while (battingAvg < 0.101 || battingAvg > 0.499) {
+            alert('101 ~ 499 사이 숫자만 입력해주세요');
+            battingAvg = (Number(prompt(`2팀의 ${i + 1}번 타자의 ('타율' X 1000)을 입력하세요!
+            예시) 333
+            주의) 101 ~ 499만 입력 가능`)) / 1000);
+        }
         this.batterName2.push(batterName);
         this.battingAvg2.push(battingAvg);
     }
@@ -91,17 +107,16 @@ info.printCopyText = function (teamname, batterName, battingAvg, output) {
     outputHTML.innerHTML = outputText;
 }
 
-// 사용자가 게임 시작을 도와주는 메소드
+// 사용자가 게임 시작을 원할 때 기능하는 메소드
 info.userWantPlay = function () {
     if (this.askCount === 1) {
         alert('현재 입력된 데이터가 없습니다!\n먼저 팀 데이터를 입력해주세요!!');
     } else if (this.askCount === 3) {
-        alert('게임 시작 전 팀 데이터를 출력해주세요!');
+        alert('게임 시작 전 팀 데이터를 확인해주세요!\n\n수정을 원할 시 팀 데이터 수정을 클릭하세요!');
     } else {
         game.init();
     }
 }
-
 
 // 사용자의 팀 데이터 수정을 도와주는 메소드
 info.userWantModify = function () {
