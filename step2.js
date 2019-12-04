@@ -1,5 +1,6 @@
 // Step2
 // by Hyunjun
+// 2019.12.04
 
 // 현재 이닝 수와 타자의 이름을 출력할 때 사용하는 HTML elements
 const attackOutput0 = document.querySelector('.attackOutput'), // 1회초 00팀 공격 출력 
@@ -287,6 +288,7 @@ game.isGameOverPrint = function () {
         Thank you`;
     attackOutput.innerHTML = this.outputStr;
     inningOuput.innerHTML = '';
+    clearInterval(this.autoPlay);
 }
 
 // 이닝이 끝났는지 확인하는 메소드
@@ -304,7 +306,7 @@ game.isInningOverPrint = function () {
     this.outputStr += `<br>Inning Change!! <br><br> 현재 스코어- ${this.team1Score} : ${this.team2Score}`;
     inningOuput.innerHTML = this.outputStr;
     this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
-    setTimeout(game.init, 4000);
+    // setTimeout(game.init, 4000);
 }
 
 // 현재 이닝과 선수 이름을 알려주는 메소드 ex) 1회초 와이번즈 공격!
@@ -379,7 +381,7 @@ game.isOutOrHitPrint = function () {
     inningOuput.innerHTML = this.outputStr;
     this.batterOrder();
     this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
-    setTimeout(game.init, 700);
+    // setTimeout(game.init, 700);
 }
 
 // 타석 바뀌면 누적된 카운트 초기화하는 메소드
@@ -403,7 +405,7 @@ game.is3StrikePrint = function () {
     inningOuput.innerHTML = this.outputStr;
     this.batterOrder();
     this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
-    setTimeout(game.init, 700);
+    // setTimeout(game.init, 700);
 }
 
 // 4BALL인지 확인하는 메소드
@@ -421,7 +423,7 @@ game.is4BallPrint = function () {
     // this.print();
     this.batterOrder();
     this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
-    setTimeout(game.init, 700);
+    // setTimeout(game.init, 700);
 }
 
 // 1스트라이크 또는 1볼 일 때 출력하는 메소드
@@ -429,7 +431,7 @@ game.isNormalPrint = function () {
     this.inningPrint();
     this.outputStr += `${this.condition}!<br>${this.strikeCount}S ${this.ballCount}B ${this.outCount}O<br><br>`;
     inningOuput.innerHTML = this.outputStr;
-    setTimeout(game.init, 700);
+    // setTimeout(game.init, 700);
 }
 
 // 팀 데이터 입력 핸들러 함수
@@ -442,16 +444,34 @@ function userWantOutput() {
     info.userWantOutput();
 }
 
-// 게임 시작 핸들러 함수
-function userWantPlay() {
-    info.userWantPlay();
-}
-
 // 팀 데이터 수정
 function userWantModify() {
     info.userWantModify();
 }
 
+// 공 던지기 핸들러 함수
+function userWantPlay() {
+    info.userWantPlay();
+}
+
+// 자동 진행 핸들러 함수
+function userWantAutoPlay() {
+    if (info.askCount === 1) {
+        alert('현재 입력된 데이터가 없습니다!\n먼저 팀 데이터를 입력해주세요!!');
+    } else if (info.askCount === 3) {
+        alert('게임 시작 전 팀 데이터를 확인해주세요!\n\n수정을 원할 시 팀 데이터 수정을 클릭하세요!');
+    } else {
+        game.autoPlay = setInterval(game.init, 300);
+    }
+    
+}
+
+// 자동진행 멈추기 핸들러 함수
+function userWantStopAutoPlay() {
+    clearInterval(game.autoPlay);
+}
+
+// 처음 인사하는 알림창
 function init() {
     alert('신나는 야구게임 시작해볼까요?'+
     '\n\n먼저 팀 데이터를 입력해주세요!');
