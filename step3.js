@@ -1,6 +1,9 @@
 /* Step3 구현 
-    -게임 진행하며 출력화면 정상작동 구현
-        -투구 수, 삼진 수, 안타 수 반영
+    -사용자에게 스킵 권한 주기.
+*/
+/* step3 리팩토링 요소
+    - 삼진아웃이나 4볼일 때 아웃카운트가 사라짐.
+    - 게임 끝나면 inningOutput 초기화 하기
 */
 
 // HTML elements
@@ -12,9 +15,9 @@ const inningOuput0 = document.querySelector('.inningOuput'), // 게임 결과 �
 
 // team1과 team2의 선수 목록 출력할 때 사용하는 HTML elements
 const team1Output0 = document.querySelector('.team1Output'), // Team1 output
-    team1Output = team1Output0.querySelector('p'); 
+    team1Output = team1Output0.querySelector('p');
 const team2Output0 = document.querySelector('.team2Output'), // Team2 output
-    team2Output = team2Output0.querySelector('p'); 
+    team2Output = team2Output0.querySelector('p');
 
 //전광판 점수 출력할 때 사용하는 HTML elements
 const container = document.querySelector('.container'),
@@ -68,7 +71,7 @@ info.askTeamName = function () {
 
 // Team1 타자 이름과 타율을 배열에 넣는 메소드
 info.askToTeam1 = function () {
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 9; i++) {
         let batterName = prompt(`1팀의 ${i + 1}번 타자의 '이름'을 입력하세요!`);
         let battingAvg = (Number(prompt(`1팀의 ${i + 1}번 타자의 '타율'을 입력하세요! ex) 333`)) / 1000);
         this.batterName1.push(batterName);
@@ -78,7 +81,7 @@ info.askToTeam1 = function () {
 
 // Team2에게 정보 물어보는 메소드
 info.askToTeam2 = function () {
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 9; i++) {
         let batterName = prompt(`2팀의 ${i + 1}번 타자의 '이름'을 입력하세요!`);
         let battingAvg = (Number(prompt(`2팀의 ${i + 1}번 타자의 '타율'을 입력하세요! ex) 432`)) / 1000);
         this.batterName2.push(batterName);
@@ -138,15 +141,15 @@ game = {
     team1inningScore: 0,
     team2inningScore: 0,
     outputStr: '',
-    sboCountStrike : '',
-    sboCountBall : '',
-    sboCountOut : '',
-    team1PitchCount : 0,
-    team2PitchCount : 0,
-    team1SOCount : 0,
-    team2SOCount : 0,
-    team1HitCount : 0,
-    team2HitCount : 0
+    sboCountStrike: '',
+    sboCountBall: '',
+    sboCountOut: '',
+    team1PitchCount: 0,
+    team2PitchCount: 0,
+    team1SOCount: 0,
+    team2SOCount: 0,
+    team1HitCount: 0,
+    team2HitCount: 0
 };
 
 // 게임 시작하는 메소드
@@ -299,7 +302,7 @@ game.conditionInit = function () {
     this.ballCount = 0;
     this.sboCountStrike = '';
     this.sboCountBall = '';
-    this.sboCountOut='';
+    this.sboCountOut = '';
 }
 
 // 공격이 바뀌면 카운트를 전부 초기화하는 메소드
@@ -311,7 +314,7 @@ game.inningInit = function () {
 
     this.team1inningScore = 0;
     this.team2inningScore = 0;
-    
+
     this.sboCountStrike = '';
     this.sboCountBall = '';
     this.sboCountOut = '';
@@ -338,7 +341,7 @@ game.getSboCountBall = function () {
     for (let i = 0; i < this.ballCount; i++) {
         this.sboCountBall += `0`;
     }
-    sboCount.innerHTML = `S : ${this.sboCountStrike}<br>B : ${this.sboCountBall}<br>O : ${this.sboCountOut}`; 
+    sboCount.innerHTML = `S : ${this.sboCountStrike}<br>B : ${this.sboCountBall}<br>O : ${this.sboCountOut}`;
 }
 
 // SBO전광판에 출력할 Out 구하는 메소드
@@ -417,23 +420,23 @@ game.isGameOverPrint = function () {
 game.scoreCopytext1 = function () {
     switch (this.inning) {
         case 1:
-        team1Score1.innerHTML = this.team1inningScore;
-        break;
+            team1Score1.innerHTML = this.team1inningScore;
+            break;
         case 2:
-        team1Score2.innerHTML = this.team1inningScore;
-        break;
+            team1Score2.innerHTML = this.team1inningScore;
+            break;
         case 3:
-        team1Score3.innerHTML = this.team1inningScore;
-        break;
+            team1Score3.innerHTML = this.team1inningScore;
+            break;
         case 4:
-        team1Score4.innerHTML = this.team1inningScore;
-        break;
+            team1Score4.innerHTML = this.team1inningScore;
+            break;
         case 5:
-        team1Score5.innerHTML = this.team1inningScore;
-        break;
+            team1Score5.innerHTML = this.team1inningScore;
+            break;
         case 6:
-        team1Score6.innerHTML = this.team1inningScore;
-        break;
+            team1Score6.innerHTML = this.team1inningScore;
+            break;
     }
 
 }
@@ -441,23 +444,23 @@ game.scoreCopytext1 = function () {
 game.scoreCopytext2 = function () {
     switch (this.inning) {
         case 1:
-        team2Score1.innerHTML = this.team2inningScore;
-        break;
+            team2Score1.innerHTML = this.team2inningScore;
+            break;
         case 2:
-        team2Score2.innerHTML = this.team2inningScore;
-        break;
+            team2Score2.innerHTML = this.team2inningScore;
+            break;
         case 3:
-        team2Score3.innerHTML = this.team2inningScore;
-        break;
+            team2Score3.innerHTML = this.team2inningScore;
+            break;
         case 4:
-        team2Score4.innerHTML = this.team2inningScore;
-        break;
+            team2Score4.innerHTML = this.team2inningScore;
+            break;
         case 5:
-        team2Score5.innerHTML = this.team2inningScore;
-        break;
+            team2Score5.innerHTML = this.team2inningScore;
+            break;
         case 6:
-        team2Score6.innerHTML = this.team2inningScore;
-        break;
+            team2Score6.innerHTML = this.team2inningScore;
+            break;
     }
 }
 
@@ -480,14 +483,7 @@ game.isInningOverPrint = function () {
     this.getSboCountOut();
     this.printPshCount();
     this.isTeam1 = !this.isTeam1Attack(); // 공수 바뀌면 isTeam1 false로 바꿈.
-    this.inningInit();
-    this.outputStr += `${this.condition}! 아웃!<br>${this.strikeCount}S ${this.ballCount}B 3O<br>`;
-    this.outputStr += `<br>Inning Change!! <br><br> 현재 스코어- ${this.team1Score} : ${this.team2Score}`;
-    inningOuput.innerHTML = this.outputStr;
-    team1Score7.innerHTML = this.team1Score;
-    team2Score7.innerHTML = this.team2Score;
-    this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
-    // setTimeout(game.init, 5000);
+    this.isTeam2Win(); // 6회말 시작할 때 team2가 이기고 있으면 게임 종료
 }
 
 // 아웃 또는 안타일때 결과 출력하는 메소드
@@ -535,7 +531,7 @@ game.is4BallPrint = function () {
 
 // psh출력 하는 메소드
 game.printPshCount = function () {
-    if(this.isTeam1Attack()){
+    if (this.isTeam1Attack()) {
         this.team1PitchCount++;
         PSHCount.innerHTML = `투구 : ${this.team1PitchCount}개<br>탈삼진 : ${this.team1SOCount}개<br>안타 : ${this.team1HitCount}개`;
     } else {
@@ -544,16 +540,16 @@ game.printPshCount = function () {
     }
 }
 
-// 공수 전환 될 때 마지막 아웃이 삼진아웃이었는지 물어보는 메소드
+// 공수 전환 될 때 마지막 아웃이 삼진아웃이면 개수 추가하는 메소드
 game.isSOCount = function () {
-    if(this.is3Strike()){
+    if (this.is3Strike()) {
         this.getSOCount();
-    } 
+    }
 }
 
 // 각 팀의 삼진 아웃 개수를 세는 메소드 
 game.getSOCount = function () {
-    if(this.isTeam1Attack()){
+    if (this.isTeam1Attack()) {
         this.team1SOCount++;
     } else {
         this.team2SOCount++;
@@ -562,12 +558,40 @@ game.getSOCount = function () {
 
 // 각 팀의 안타개수를 세는 메소드 
 game.getHitCount = function () {
-    if(this.condition === "HIT") {
-        if(this.isTeam1Attack()){
+    if (this.condition === "HIT") {
+        if (this.isTeam1Attack()) {
             this.team1HitCount++;
         } else {
             this.team2HitCount++;
         }
+    }
+}
+
+// 6회말 시작인데 team2가 이기고 있으면 게임 종료
+game.isTeam2Win = function () {
+    if (this.inning === 6) {
+        if (this.team1Score < this.team2Score) {
+            this.outputStr = ''; // 이전 출력물 초기화
+            this.isGameOverPrint();
+        } else {
+            this.inningInit();
+            this.outputStr += `${this.condition}! 아웃!<br>${this.strikeCount}S ${this.ballCount}B 3O<br>`;
+            this.outputStr += `<br>Inning Change!! <br><br> 현재 스코어- ${this.team1Score} : ${this.team2Score}`;
+            inningOuput.innerHTML = this.outputStr;
+            team1Score7.innerHTML = this.team1Score;
+            team2Score7.innerHTML = this.team2Score;
+            this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
+            // setTimeout(gam
+        }
+    } else {
+        this.inningInit();
+        this.outputStr += `${this.condition}! 아웃!<br>${this.strikeCount}S ${this.ballCount}B 3O<br>`;
+        this.outputStr += `<br>Inning Change!! <br><br> 현재 스코어- ${this.team1Score} : ${this.team2Score}`;
+        inningOuput.innerHTML = this.outputStr;
+        team1Score7.innerHTML = this.team1Score;
+        team2Score7.innerHTML = this.team2Score;
+        this.outputStr = ''; // 공수 전환되면 컨디션 출력하는 창 초기화
+        // setTimeout(gam
     }
 }
 
