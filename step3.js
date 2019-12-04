@@ -1,5 +1,6 @@
 // Step3
 // by hyunjun
+// 2019.12.04
 
 // 사용자의 팀 데이터 입력을 도와주는 메소드
 info.userWantInput = function () {
@@ -35,7 +36,7 @@ info.askBatterInfo = function () {
 
 // Team1에게 타자 정보를 물어보는 메소드
 info.askToTeam1 = function () {
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 9; i++) {
         let batterName = prompt(`1팀의 ${i + 1}번 타자의 '이름'을 입력하세요! ex) 양준혁`);
         let battingAvg = (Number(prompt(`1팀의 ${i + 1}번 타자의 ('타율' X 1000)을 입력하세요!
         예시) 333
@@ -53,7 +54,7 @@ info.askToTeam1 = function () {
 
 // Team2 타자 이름과 타율을 배열에 넣는 메소드
 info.askToTeam2 = function () {
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 9; i++) {
         let batterName = prompt(`2팀의 ${i + 1}번 타자의 '이름'을 입력하세요! ex) 양준혁`);
         let battingAvg = (Number(prompt(`2팀의 ${i + 1}번 타자의 ('타율' X 1000)을 입력하세요!
         예시) 333
@@ -591,7 +592,6 @@ function userWantOutput() {
     info.userWantOutput();
 }
 
-
 // 팀 데이터 수정
 function userWantModify() {
     info.userWantModify();
@@ -619,9 +619,9 @@ function userWantStopAutoPlay() {
     clearInterval(game.autoPlay);
 }
 
+// 처음 프로그램 작동 시 인사하는 메소드
 function init() {
     alert('신나는 야구게임 시작해볼까요?'+
     '\n\n먼저 팀 데이터를 입력해주세요!');
 }
-
 init();

@@ -43,8 +43,6 @@ const scoreBoard2 = document.querySelector('.scoreBoard2'),
 // 컨디션을 모아놓은 리스트
 const CONDITION_LIST = ['STRIKE', 'BALL', 'HIT', 'OUT']
 
-
-
 // info객체
 // team1과 team2 선수들의 이름과 타율을 저장 
 info = {
@@ -54,7 +52,6 @@ info = {
     battingAvg2: [],
     askCount: 1
 };
-
 
 // 게임 객체
 // 야구와 관련된 속성 및 메소드 저장
