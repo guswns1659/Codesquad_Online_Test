@@ -28,12 +28,17 @@ info = {
     askCount: 1
 };
 
-// 사용자가 데이터 입력을 원할 때 기능하는 메소드
+// 사용자의 팀 데이터 입력을 도와주는 메소드
 info.userWantInput = function () {
-    this.askTeamName();
-    this.askBatterInfo();
-    this.askTeamName();
-    this.askBatterInfo();
+    if (this.askCount != 1) {
+        alert('이미 팀 데이터를 입력했습니다.' +
+            '\n수정을 원하면 팀 데이터 수정 클릭해주세요!');
+    } else {
+        this.askTeamName();
+        this.askBatterInfo();
+        this.askTeamName();
+        this.askBatterInfo();
+    }
 }
 
 // 팀이름 입력을 요청하는 메소드
@@ -94,7 +99,7 @@ info.askToTeam2 = function () {
 // 사용자가 팀 데이터 출력을 원할 때 기능하는 메소드
 info.userWantOutput = function () {
     if (this.askCount === 1) {
-        alert('현재 입력된 데이터가 없습니다!\n먼저 팀 데이터를 입력해주세요!!');
+        alert('현재 입력된 데이터가 없습니다!\n\n먼저 팀 데이터를 입력해주세요!!');
     } else if (this.askCount != 1) {
         this.printTeam1Info();
         this.printTeam2Info();
@@ -129,15 +134,23 @@ info.printCopyText = function (teamname, batterName, battingAvg, output) {
 // 사용자가 게임 시작을 원할 때 기능하는 메소드
 info.userWantPlay = function () {
     if (this.askCount === 1) {
-        alert('현재 입력된 데이터가 없습니다!\n먼저 팀 데이터를 입력해주세요!!');
+        alert('현재 입력된 데이터가 없습니다!\n\n먼저 팀 데이터를 입력해주세요!!');
     } else if (this.askCount === 3) {
-        alert('게임 시작 전 팀 데이터를 확인해주세요!\n잘못 입력 시 다시 입력할 수 있습니다.');
+        alert('게임 시작 전 팀 데이터를 확인해주세요!\n\n수정을 원하면 팀 데이터 수정 클릭해주세요!');
     } else {
         game.init();
     }
 }
 
-
+// 사용자의 팀 데이터 수정을 도와주는 메소드
+info.userWantModify = function () {
+    this.batterName1 = [];
+    this.battingAvg1 = [];
+    this.batterName2 = [];
+    this.battingAvg2 = [];
+    this.askCount = 1;
+    this.userWantInput();
+}
 
 // 게임 객체
 // 게임 진행과 관련된 속성 및 메소드 저장
@@ -434,4 +447,9 @@ function userWantOutput() {
 // 게임 시작 핸들러 함수
 function userWantPlay() {
     info.userWantPlay();
+}
+
+// 팀 데이터 수정
+function userWantModify() {
+    info.userWantModify();
 }
