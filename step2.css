@@ -1,0 +1,43 @@
+button {
+    margin: 5px;
+    font-size: 15px;
+}
+
+.container {
+    display: table;
+    width: 100%;
+    margin: 5px;
+}
+
+.outputRow1 {
+    display: table-row;
+    border: 1px solid black;
+}
+
+.attackOutput {
+    border: 1px solid black;
+    display: table-cell;
+    padding: 0px 20px;
+    height: 150px;
+}
+
+.inningOuput {
+    border: 1px solid black;
+    display: table-cell;
+    padding: 0px 20px;
+    height: 150px;
+}
+
+.team1Output {
+    border: 1px solid red;
+    display: table-cell;
+    padding: 0px 20px;
+    height: 150px;
+}
+
+.team2Output {
+    border: 1px solid blue;
+    display: table-cell;
+    padding: 0px 20px;
+    height: 150px;
+}
