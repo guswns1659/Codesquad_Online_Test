@@ -5,15 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        .container {
+            display: table;
+            width: 25%;
+            border: 1px solid black;
+            margin: 10px;
+        }
+        button {
+            margin: 10px;
+            font-size: 20px;
+        }
+        h2 {
+            margin: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h2>야구 게임!!</h2>
-    <div >
+    <h2>간단하지만 재밌는 야구 게임!!</h2>
+    <div>
         <button onclick="init()">게임 시작!!</button>
-        <div class="output">
-            
+        <div class="container">
+            <p id="output">게임 출력 화면</p>
         </div>
-
     </div>
     <script src="step1.js"></script>
 </body>

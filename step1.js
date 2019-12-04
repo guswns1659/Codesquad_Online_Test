@@ -1,5 +1,9 @@
-// Baseball Game 
+// Step-1 
 // By Hyunjun
+
+//HTML elements for output
+const container = document.querySelector(".container"),
+    output = container.querySelector("#output");
 
 // game Object
 // Intialize condition and change condition.
@@ -10,7 +14,41 @@ game = {
     hitCount: 0,
     outCount: 0,
     playCount: 1,
+    outputStr : ''
 };
+
+// Starting game 
+game.init = function () {
+    if (this.playCount === 1) {
+        this.playCount++;
+        this.outputStr += `첫 번째 타자가 타석에 입장했습니다.<br><br>`;
+        this.outputStr = '';
+    }
+    _this = game;
+    _this.pickRandomCondition();
+    _this.updateCondition();
+    _this.checkAccumulation();
+    _this.progress();
+}
+
+// Pick random game in conditionList 
+game.pickRandomCondition = function () {
+    const randomNum = Math.floor(Math.random() * 4); // 0, 1, 2, 3
+    this.condition = this.conditionList[randomNum]
+};
+
+// Update count of condition
+game.updateCondition = function () {
+    if (this.condition === 'STRIKE') {
+        this.strikeCount++;
+    } else if (this.condition === 'BALL') {
+        this.ballCount++;
+    } else if (this.condition === 'HIT') {
+        this.hitCount++;
+    } else if (this.condition === 'OUT') {
+        this.outCount++;
+    }
+}
 
 // Accumulate condition
 // ex) 3 strike === 1 out
@@ -19,6 +57,23 @@ game.checkAccumulation = function () {
         this.outCount++;
     } else if (this.ballCount === 4) {
         this.hitCount++;
+    }
+}
+
+// Checking progress of game and restarting game
+game.progress = function () {
+    if (this.isOver()) {
+        this.isGameOverPrint();
+    } else if (this.isHit()) {
+        this.isHitPrint();
+    } else if(this.isOut()){
+        this.isOutPrint();
+    } else if (this.is4Ball()) {
+        this.is4BallPrint();
+    } else if(this.is3Strike()){
+        this.is3StrikePrint();
+    } else {
+        this.isNormalPrint();
     }
 }
 
@@ -47,58 +102,62 @@ game.is4Ball = function () {
     return this.ballCount === 4;
 }
 
-// Checking progress of game and restarting game
-game.progress = function () {
-    if (this.isOver()) {
-        this.isGameOverPrint();
-    } else if (this.isHit()) {
-        this.isHitPrint();
-    } else if(this.isOut()){
-        this.isOutPrint();
-    } else if (this.is4Ball()) {
-        this.is4BallPrint();
-    } else if(this.is3Strike()){
-        this.is3StrikePrint();
-    } else {
-        this.isNormalPrint();
-    }
-}
-
+// Printing output when game is over
 game.isGameOverPrint = function () {
     this.conditionInit();
-    console.log(`아웃\n${this.strikeCount}S ${this.ballCount}B ${this.outCount}O`);
-    console.log(`최종 안타 수 : ${this.hitCount}개 입니다.\nGAME OVER`);
+    this.outputStr += `아웃<br>${this.strikeCount}S ${this.ballCount}B ${this.outCount}O<br><br>`; 
+    this.outputStr += `최종 안타 수 : ${this.hitCount}개 입니다.<br>GAME OVER`;
+    output.innerHTML = this.outputStr;
+    this.outputStr = '';
 }
 
+// Printing output when player is out
 game.isOutPrint = function() {
-    console.log(`${this.condition}! 다음 타자가 타석에 입장했습니다.`);
+    this.outputStr += `${this.condition}!<br>`;
     this.conditionInit();
-    console.log(`${this.strikeCount}S ${this.ballCount}B ${this.outCount}O`);
-    // this.init();
+    this.outputStr += `${this.strikeCount}S ${this.ballCount}B ${this.outCount}O
+                      <br> 다음 타자가 타석에 입장했습니다.`;
+    output.innerHTML = this.outputStr;
+    this.outputStr = '';
+    setTimeout(game.init, 1500);
 }
 
+// Printing output when player hit
 game.isHitPrint = function() {
-    console.log(`${this.condition}! 다음 타자가 타석에 입장했습니다.`);
+    this.outputStr += `${this.condition}!<br>`;
     this.conditionInit();
-    console.log(`${this.strikeCount}S ${this.ballCount}B ${this.outCount}O`);
-    // this.init();
+    this.outputStr += `${this.strikeCount}S ${this.ballCount}B ${this.outCount}O
+                      <br> 다음 타자가 타석에 입장했습니다.`;
+    output.innerHTML = this.outputStr;
+    this.outputStr = '';
+    setTimeout(game.init, 1500);
 }
 
+// Printing output when player is 3Strike
 game.is3StrikePrint = function() {
-    console.log(`${this.condition}\n삼진아웃! 다음 타자가 타석에 입장했습니다.`)
+    this.outputStr += `${this.condition}<br>삼진아웃!<br>`;
     this.conditionInit();
-    console.log(`${this.strikeCount}S ${this.ballCount}B ${this.outCount}O`);
+    this.outputStr += `${this.strikeCount}S ${this.ballCount}B ${this.outCount}O
+                      <br> 다음 타자가 타석에 입장했습니다.`;
+    output.innerHTML = this.outputStr;
+    this.outputStr = '';
 }
 
+// Printing output when player is 4Ball
 game.is4BallPrint = function() {
-    console.log(`${this.condition}\n4볼! 진루! 다음 타자가 타석에 입장했습니다.`)
+    this.outputStr += `${this.condition}<br>4볼! 진루!`;
     this.conditionInit();
-    console.log(`${this.strikeCount}S ${this.ballCount}B ${this.outCount}O`);
+    this.outputStr += `${this.strikeCount}S ${this.ballCount}B ${this.outCount}O
+                      <br> 다음 타자가 타석에 입장했습니다.`;
+    output.innerHTML = this.outputStr;
+    this.outputStr = '';
 }
 
+// Printing output when player is 1Strike or 1Ball
 game.isNormalPrint = function() {
-    console.log(`${this.condition}!\n${this.strikeCount}S ${this.ballCount}B ${this.outCount}O`);
-    // this.init();
+    this.outputStr += `${this.condition}!<br>${this.strikeCount}S ${this.ballCount}B ${this.outCount}O<br><br>`;
+    output.innerHTML = this.outputStr;
+    setTimeout(game.init, 1500);
 }
 
 // When player is changed, initialize strikeCount and ballCount 
@@ -107,39 +166,7 @@ game.conditionInit = function () {
     this.ballCount = 0;
 }
 
-// Update count of condition
-game.updateCondition = function () {
-    if (this.condition === 'STRIKE') {
-        this.strikeCount++;
-    } else if (this.condition === 'BALL') {
-        this.ballCount++;
-    } else if (this.condition === 'HIT') {
-        this.hitCount++;
-    } else if (this.condition === 'OUT') {
-        this.outCount++;
-    }
-}
-
-// Pick random game in conditionList 
-game.pickRandomCondition = function () {
-    const randomNum = Math.floor(Math.random() * 4); // 0, 1, 2, 3
-    this.condition = this.conditionList[randomNum]
-};
-
-// Starting game 
-game.init = function () {
-    if (this.playCount === 1) {
-        this.playCount++;
-        console.log(`신나는 야구게임!`);
-        console.log(`첫 번째 타자가 타석에 입장했습니다.\n`);
-    }
-    this.pickRandomCondition();
-    this.updateCondition();
-    this.checkAccumulation();
-    this.progress();
-}
-
-// 게임시작 버튼 핸들러 함수
+// Handler function for game starting
 function init() {
-    // game.init();
+    game.init();
 }
