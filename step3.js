@@ -252,6 +252,7 @@ game.isGameOverPrint = function () {
     inningOuput.innerHTML = '';
     team1Score7.innerHTML = this.team1Score;
     team2Score7.innerHTML = this.team2Score;
+    clearInterval(this.autoPlay);
 }
 
 // 이닝이 끝났는지 확인하는 메소드
@@ -590,12 +591,37 @@ function userWantOutput() {
     info.userWantOutput();
 }
 
-// 게임시작 핸들러 함수
-function userWantPlay() {
-    info.userWantPlay();
-}
 
 // 팀 데이터 수정
 function userWantModify() {
     info.userWantModify();
 }
+
+// 공 던지기 핸들러 함수
+function userWantPlay() {
+    info.userWantPlay();
+}
+
+// 자동 진행 핸들러 함수
+function userWantAutoPlay() {
+    if (info.askCount === 1) {
+        alert('현재 입력된 데이터가 없습니다!\n먼저 팀 데이터를 입력해주세요!!');
+    } else if (info.askCount === 3) {
+        alert('게임 시작 전 팀 데이터를 확인해주세요!\n\n수정을 원할 시 팀 데이터 수정을 클릭하세요!');
+    } else {
+        game.autoPlay = setInterval(game.init, 300);
+    }
+    
+}
+
+// 자동진행 멈추기 핸들러 함수
+function userWantStopAutoPlay() {
+    clearInterval(game.autoPlay);
+}
+
+function init() {
+    alert('신나는 야구게임 시작해볼까요?'+
+    '\n\n먼저 팀 데이터를 입력해주세요!');
+}
+
+init();
