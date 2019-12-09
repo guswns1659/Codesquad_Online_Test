@@ -1,0 +1,27 @@
+.outputContainer{
+    display: table;
+    width: 100%;
+    height: 150px;
+}
+
+.outputRow{
+    display: table-row;
+    border: 1px solid black;
+}
+
+.inningInfo{
+    display: table-cell;
+    border: 1px solid black;
+}
+.attackInfo{
+    display: table-cell;
+    border: 1px solid black;
+}
+.team1Info{
+    display: table-cell;
+    border: 1px solid red;
+}
+.team2Info{
+    display: table-cell;
+    border: 1px solid blue;
+}
