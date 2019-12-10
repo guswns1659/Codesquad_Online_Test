@@ -14,7 +14,8 @@ const userWantStart = function () {
 // 결과 출력 등 게임 진행 담당
 game = {
     batterStr: '',
-    ballCountStr: ''
+    ballCountStr: '',
+    team1: true
 };
 
 
@@ -32,9 +33,11 @@ game.init = function () {
     score.getCond();
     score.plusBallCount();
     score.handleBallCount();
-    score.initCount();
     this.print();
+    score.initCount();
     this.plusBatOrder();
+    this.changeTeam();
+    this.initInning();
     // this.initPrint();
     score.NumOfBall++;
 }
@@ -113,12 +116,35 @@ score.initCount = function () {
 
 // 타석 바뀔 때 타순 증가 시키기.
 game.plusBatOrder = function () {
-    if (score.isHit() || score.isOut() || score.is3Strike() || score.is4Ball()) {
-        input.team1BatOrder++;
+    if (this.isTeam1()) {
+        if (score.isHit() || score.isOut() || score.is3Strike() || score.is4Ball()) {
+            input.team1BatOrder++;
+        }
+    } else {
+        if (score.isHit() || score.isOut() || score.is3Strike() || score.is4Ball()) {
+            input.team2BatOrder++;
+        }
     }
-    console.log(input.team1BatOrder);
 }
 
+// 공수전환할 때 현재 공격팀 바꿔주는 메소드 
+game.changeTeam = function () {
+    if (score.isAttackOver()) {
+        this.team1 = !this.team1;
+    }
+}
+
+// 현재 공격팀 확인하는 메소드
+game.isTeam1 = function () {
+    return this.team1;
+}
+
+// 이닝 바뀔 때 볼카운트 초기화
+game.initInning = function () {
+    if (score.isAttackOver()) {
+        score.BALLCOUNT = [0, 0, 0, 0];
+    }
+}
 
 // 게임 결과를 출력하는 메소드
 game.print = function () {
@@ -126,7 +152,7 @@ game.print = function () {
         this.printIsAttackOver();
     } else if (score.is3Strike()) {
         this.printIs3Strike();
-    } else if(score.is4Ball()){
+    } else if (score.is4Ball()) {
         this.printIs4Ball();
     } else if (score.isHit()) {
         this.printIsHit();
@@ -137,39 +163,50 @@ game.print = function () {
     }
 }
 
-// 게임 오버일 때 프린트
+// 각 팀에 따라 선수 출력창이 달라지는 메소드
+game.printEachTeam = function () {
+    if (this.isTeam1()) {
+        this.batterStr += `${input.team1BatOrder}번 ${input.team1BatName[input.team1BatOrder - 1]}`
+        printBatter.innerHTML = this.batterStr;
+        this.batterStr = '';
+    } else {
+        this.batterStr += `${input.team2BatOrder}번 ${input.team2BatName[input.team2BatOrder - 1]}`
+        printBatter.innerHTML = this.batterStr;
+        this.batterStr = '';
+
+    }
+}
+
+
+// 공수 전환할 때 일 때 프린트
 game.printIsAttackOver = function () {
+    this.printEachTeam();
+
     this.ballCountStr += `${score.currnetCond}!<br><br>`;
     this.ballCountStr += `0S 0B ${score.BALLCOUNT[3]}O<br><br>`;
-    this.ballCountStr += `게임 종료!!<br><br>`;
-    this.ballCountStr += `최종 안타 수 : ${score.BALLCOUNT[2]}개!<br>`;
+    this.ballCountStr += `공수 교대!!<br><br>`;
     this.ballCountStr += `투구 수 : ${score.NumOfBall}개!`;
     printBallCount.innerHTML = this.ballCountStr;
+    this.ballCountStr = '';
 }
 
 // 3STRIKE일 때 출력되는 메소드
 game.printIs3Strike = function () {
-    this.batterStr += `${input.team1BatOrder}번 ${input.team1BatName[input.team1BatOrder-1]}`
-    printBatter.innerHTML = this.batterStr;
-    this.batterStr = '';
-    
+    this.printEachTeam();
+
     this.ballCountStr += `STRIKE OUT!<br><br>`;
-    this.ballCountStr += `${score.BALLCOUNT[0]}S ${
-        score.BALLCOUNT[1]}B ${score.BALLCOUNT[3]}O<br><br>`;
+    this.ballCountStr += `0S 0B ${score.BALLCOUNT[3]}O<br><br>`;
     this.ballCountStr += `다음 타자가 입장했습니다.<br><br>`;
     printBallCount.innerHTML = this.ballCountStr;
-    this.ballCountStr = '';    
+    this.ballCountStr = '';
 }
 
 // 4BALL일 때 출력되는 메소드
-game.printIs4Ball = function() {
-    this.batterStr += `${input.team1BatOrder}번 ${input.team1BatName[input.team1BatOrder-1]}`
-    printBatter.innerHTML = this.batterStr;
-    this.batterStr = '';
+game.printIs4Ball = function () {
+    this.printEachTeam();
 
     this.ballCountStr += `4BALL 진루!!<br><br>`;
-    this.ballCountStr += `${score.BALLCOUNT[0]}S ${
-        score.BALLCOUNT[1]}B ${score.BALLCOUNT[3]}O<br><br>`;
+    this.ballCountStr += `0S 0B ${score.BALLCOUNT[3]}O<br><br>`;
     this.ballCountStr += `다음 타자가 입장했습니다.<br><br>`;
     printBallCount.innerHTML = this.ballCountStr;
     this.ballCountStr = '';
@@ -178,9 +215,7 @@ game.printIs4Ball = function() {
 
 // 스트라이크와 볼일 때 프린트
 game.printIsStrikeOrBall = function () {
-    this.batterStr += `${input.team1BatOrder}번 ${input.team1BatName[input.team1BatOrder-1]}`
-    printBatter.innerHTML = this.batterStr;
-    this.batterStr = '';
+    this.printEachTeam();
 
     this.ballCountStr += `${score.currnetCond}!<br><br>`;
     this.ballCountStr += `${score.BALLCOUNT[0]}S ${
@@ -191,9 +226,7 @@ game.printIsStrikeOrBall = function () {
 
 // 안타일 때 프린트
 game.printIsHit = function () {
-    this.batterStr += `${input.team1BatOrder}번 ${input.team1BatName[input.team1BatOrder-1]}`
-    printBatter.innerHTML = this.batterStr;
-    this.batterStr = '';
+    this.printEachTeam();
 
     this.ballCountStr += `${score.currnetCond}!<br><br>`;
     this.ballCountStr += `${score.BALLCOUNT[0]}S ${
@@ -204,9 +237,7 @@ game.printIsHit = function () {
 }
 // 아웃일 때 프린트
 game.printIsOut = function () {
-    this.batterStr += `${input.team1BatOrder}번 ${input.team1BatName[input.team1BatOrder-1]}`
-    printBatter.innerHTML = this.batterStr;
-    this.batterStr = '';
+    this.printEachTeam();
 
     this.ballCountStr += `${score.currnetCond}!<br><br>`;
     this.ballCountStr += `${score.BALLCOUNT[0]}S ${
