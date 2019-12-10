@@ -1,11 +1,5 @@
 const inputBtn = document.querySelector('.js-inputBtn');
 
-
-const userWantInput = function() {
-    input.askTeam1();
-    input.askTeam2();
-}
-
 input ={
     teamName : [],
     team1BatName : [],
@@ -58,4 +52,10 @@ input.excpAvg = function(batAvg, num, num2) {
 function init() {
     inputBtn.addEventListener('click', userWantInput);
 }
+
+const userWantInput = function() {
+    input.askTeam1();
+    input.askTeam2();
+}
+
 init()
