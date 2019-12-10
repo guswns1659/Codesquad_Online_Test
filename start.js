@@ -76,7 +76,7 @@ score.getProbability = function (hit, strike, ball) {
         this.currnetCond = 'HIT';
     } else if (0.9 <= RANDOM && RANDOM <= 1) {
         this.currnetCond = "OUT";
-    } 
+    }
 }
 
 
@@ -120,6 +120,9 @@ score.isAttackOver = function () {
 score.is4Hit = function () {
     return this.BALLCOUNT[2] === 4;
 }
+score.isGameOver = function () {
+    return game.inningCount === 7;
+}
 
 
 // 볼카운트 관리하는 메소드
@@ -130,14 +133,14 @@ score.handleBallCount = function () {
 //3S = 1O
 score.StrikeTo1Out = function () {
     if (this.is3Strike()) {
-        this.BALLCOUNT[0] = 0;
+        // this.BALLCOUNT[0] = 0;
         this.BALLCOUNT[3] += 1;
     }
 }
 // 4B = 1H
 score.BallToHit = function () {
     if (this.is4Ball()) {
-        this.BALLCOUNT[1] = 0;
+        // this.BALLCOUNT[1] = 0;
         this.BALLCOUNT[2] += 1;
     }
 }
@@ -154,8 +157,8 @@ score.getScore = function () {
 }
 
 // 1팀의 안타가 4개 넘을 때 점수추가하는 메소드
-score.calcHitCount1 = function() {
-    if(this.isHit()){
+score.calcHitCount1 = function () {
+    if (this.isHit()) {
         if (this.BALLCOUNT[2] > 4) {
             this.team1Score++;
         } else if (this.is4Hit()) {
@@ -164,12 +167,12 @@ score.calcHitCount1 = function() {
     }
 }
 // 2팀의 안타가 4개 넘을 때 점수추가하는 메소드
-score.calcHitCount2 = function() {
-    if(this.isHit()){
+score.calcHitCount2 = function () {
+    if (this.isHit()) {
         if (this.BALLCOUNT[2] > 4) {
-            this.team1Score++;
+            this.team2Score++;
         } else if (this.is4Hit()) {
-            this.team1Score++;
+            this.team2Score++;
         }
     }
 }
@@ -187,12 +190,12 @@ game.plusBatOrder = function () {
     if (this.isTeam1()) {
         input.team1BatOrder = this.plusBatOrder2(input.team1BatOrder);
     } else {
-        input.team1BatOrder = this.plusBatOrder2(input.team1BatOrder);
+        input.team2BatOrder = this.plusBatOrder2(input.team2BatOrder);
     }
 }
 game.plusBatOrder2 = function (order) {
     if (score.isHit() || score.isOut() || score.is3Strike() || score.is4Ball()) {
-        if(order === 9){
+        if (order === 9) {
             order = 1;
         } else {
             order++;
@@ -231,7 +234,9 @@ game.plusInningCount = function () {
 
 // 게임 결과를 출력하는 메소드
 game.print = function () {
-    if (score.isAttackOver()) {
+    if (score.isGameOver()) {
+        this.printIsGameOver();
+    } else if (score.isAttackOver()) {
         this.printIsAttackOver();
     } else if (score.is3Strike()) {
         this.printIs3Strike();
@@ -275,6 +280,22 @@ game.printInningInfo = function () {
         this.inningStr = '';
     }
 }
+
+// 게임 끝나면 출력되는 메소드
+game.printIsGameOver = function () {
+    this.inningStr += `게임 종료!<br><br>`;
+    this.inningStr += `${input.teamName[0]} VS ${input.teamName[1]}<br><br>`;
+    this.inningStr += `${score.team1Score} VS ${score.team2Score}`;
+    printInning.innerHTML = this.inningStr;
+    this.inningStr = '';
+
+    this.ballCountStr += `Empty`;
+    printBallCount.innerHTML = this.ballCountStr;
+    this.ballCountStr = '';
+
+    printBatter.innerHTML = '';
+}
+
 
 // 공수 전환할 때 일 때 프린트
 game.printIsAttackOver = function () {
@@ -332,8 +353,7 @@ game.printIsHit = function () {
     this.printInningInfo();
 
     this.ballCountStr += `${score.currnetCond}!<br><br>`;
-    this.ballCountStr += `${score.BALLCOUNT[0]}S ${
-        score.BALLCOUNT[1]}B ${score.BALLCOUNT[3]}O<br><br>`;
+    this.ballCountStr += `0S 0B ${score.BALLCOUNT[3]}O<br><br>`;
     this.ballCountStr += `다음 타자가 입장했습니다.<br><br>`;
     printBallCount.innerHTML = this.ballCountStr;
     this.ballCountStr = '';
@@ -344,8 +364,7 @@ game.printIsOut = function () {
     this.printInningInfo();
 
     this.ballCountStr += `${score.currnetCond}!<br><br>`;
-    this.ballCountStr += `${score.BALLCOUNT[0]}S ${
-        score.BALLCOUNT[1]}B ${score.BALLCOUNT[3]}O<br><br>`;
+    this.ballCountStr += `0S 0B ${score.BALLCOUNT[3]}O<br><br>`;
     this.ballCountStr += `다음 타자가 입장했습니다.<br><br>`;
     printBallCount.innerHTML = this.ballCountStr;
     this.ballCountStr = '';

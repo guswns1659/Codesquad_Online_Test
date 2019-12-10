@@ -1,7 +1,7 @@
 .printContainer{
     display: table;
     width: 100%;
-    height: 150px;
+    height: 100px;
 }
 
 .printRow{
@@ -28,4 +28,8 @@
 .printTeam2{
     display: table-cell;
     border: 1px solid blue;
+}
+
+.printBallCount{
+    margin: 10px 0px;
 }
