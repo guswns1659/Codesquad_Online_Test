@@ -1,5 +1,11 @@
 const inputBtn = document.querySelector('.js-inputBtn');
 
+
+const userWantInput = function() {
+    input.askTeam1();
+    input.askTeam2();
+}
+
 input ={
     teamName : [],
     team1BatName : [],
@@ -9,11 +15,6 @@ input ={
     team1BatOrder: 1,
     team2BatOrder: 1
 };
-
-input.userWantInput = function() {
-    input.askTeam1();
-    input.askTeam2();
-}
 
 // team1에게 팀 이름, 타자 정보를 묻는 메소드
 input.askTeam1 = function() {
@@ -55,6 +56,6 @@ input.excpAvg = function(batAvg, num, num2) {
 
 // 팀 데이터 입력 핸들러 함수
 function init() {
-    inputBtn.addEventListener('click', input.userWantInput);
+    inputBtn.addEventListener('click', userWantInput);
 }
 init()
