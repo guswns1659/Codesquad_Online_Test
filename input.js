@@ -1,11 +1,11 @@
 const inputBtn = document.querySelector('.js-inputBtn');
 
 input ={
-    teamName : [],
-    team1BatName : [],
-    team2BatName : [],
-    team1BatAvg : [],
-    team2BatAvg : [],
+    teamName : ['삼성', 'LG'],
+    team1BatName : ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'],
+    team2BatName : ['가','나','다','라','마','바','사','아','자'],
+    team1BatAvg : [0.321 ,0.321 ,0.321 ,0.321 ,0.321 ,0.321 ,0.321 ,0.321 ,0.321],
+    team2BatAvg : [0.222 ,0.222 ,0.222 ,0.222 ,0.222 ,0.222 ,0.222 ,0.222 ,0.222],
     team1BatOrder: 1,
     team2BatOrder: 1
 };

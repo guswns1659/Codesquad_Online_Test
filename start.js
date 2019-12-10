@@ -76,13 +76,7 @@ score.getProbability = function (hit, strike, ball) {
         this.currnetCond = 'HIT';
     } else if (0.9 <= RANDOM && RANDOM <= 1) {
         this.currnetCond = "OUT";
-    } else {
-        console.log('오류');
-    }
-    console.log(RANDOM);
-    console.log(strike);
-    console.log(strike + ball);
-    console.log(this.currnetCond);
+    } 
 }
 
 
@@ -191,15 +185,22 @@ score.initCount = function () {
 // 타석 바뀔 때 타순 증가 시키기.
 game.plusBatOrder = function () {
     if (this.isTeam1()) {
-        if (score.isHit() || score.isOut() || score.is3Strike() || score.is4Ball()) {
-            input.team1BatOrder++;
-        }
+        input.team1BatOrder = this.plusBatOrder2(input.team1BatOrder);
     } else {
-        if (score.isHit() || score.isOut() || score.is3Strike() || score.is4Ball()) {
-            input.team2BatOrder++;
-        }
+        input.team1BatOrder = this.plusBatOrder2(input.team1BatOrder);
     }
 }
+game.plusBatOrder2 = function (order) {
+    if (score.isHit() || score.isOut() || score.is3Strike() || score.is4Ball()) {
+        if(order === 9){
+            order = 1;
+        } else {
+            order++;
+        }
+    }
+    return order;
+}
+
 
 // 공수전환할 때 현재 공격팀 바꿔주는 메소드 
 game.changeTeam = function () {
@@ -227,7 +228,6 @@ game.plusInningCount = function () {
         }
     }
 }
-
 
 // 게임 결과를 출력하는 메소드
 game.print = function () {
