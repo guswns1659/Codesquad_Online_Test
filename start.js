@@ -1,6 +1,5 @@
 const startBtn = document.querySelector('.js-startBtn'),
     printInning = document.querySelector('.printInning'),
-    printAttack = document.querySelector('.printAttack'),
     printBatter = document.querySelector('.printBatter'),
     printBallCount = document.querySelector('.printBallCount');
 
@@ -15,7 +14,8 @@ const userWantStart = function () {
 game = {
     batterStr: '',
     ballCountStr: '',
-    team1: true
+    team1: true,
+    inningCount : 1
 };
 
 
@@ -36,17 +36,51 @@ game.init = function () {
     this.print();
     score.initCount();
     this.plusBatOrder();
+    this.plusInningCount();
     this.changeTeam();
     this.initInning();
     // this.initPrint();
     score.NumOfBall++;
 }
 
+// const BATORDER_T1 = input.team1BatOrder;
+// const input.team2BatOrder = input.team2BatOrder;
+
 // 볼 컨디션 구하는 메소드
 score.getCond = function () {
-    const randomNum = Math.floor(Math.random() * this.CONDITIONS.length);
-    this.currnetCond = this.CONDITIONS[randomNum];
+    if(game.isTeam1()){
+        const hit = input.team1BatAvg[input.team1BatOrder]  
+        const strike = ((1 - hit) / 2) - 0.05;
+        const ball = ((1 - hit) / 2) - 0.05;
+        this.getProbability(hit,strike,ball);
+    } else {
+        const hit = input.team2BatAvg[input.team2BatOrder]  
+        const strike = ((1 - hit) / 2) - 0.05;
+        const ball = ((1 - hit) / 2) - 0.05;
+        this.getProbability(hit,strike,ball);
+    }
 }
+
+// 타율에 따른 확룔 구하는 메소드
+score.getProbability = function(hit, strike, ball) {
+    const RANDOM = Math.random();
+    if(0 <= RANDOM && RANDOM <= strike){
+        this.currnetCond = 'STRIKE';
+    } else if(strike <= RANDOM && RANDOM <= (strike+ball)){
+        this.currnetCond = 'BALL';
+    } else if((strike+ball)<=RANDOM && RANDOM <= 0.9){
+        this.currnetCond = 'HIT';
+    } else if(0.9<=RANDOM && RANDOM <= 1) {
+        this.currnetCond = "OUT";
+    } else {
+        console.log('오류');
+    }
+    console.log(RANDOM);
+    console.log(strike);
+    console.log(strike+ball);
+    console.log(this.currnetCond);
+}
+
 
 // 볼 카운트를 추가하는 메소드
 score.plusBallCount = function () {
@@ -146,6 +180,15 @@ game.initInning = function () {
     }
 }
 
+game.plusInningCount = function() {
+    if(!this.isTeam1()){
+        if(score.isAttackOver()){
+            this.inningCount++;
+        }
+    }
+}
+
+
 // 게임 결과를 출력하는 메소드
 game.print = function () {
     if (score.isAttackOver()) {
@@ -173,10 +216,8 @@ game.printEachTeam = function () {
         this.batterStr += `${input.team2BatOrder}번 ${input.team2BatName[input.team2BatOrder - 1]}`
         printBatter.innerHTML = this.batterStr;
         this.batterStr = '';
-
     }
 }
-
 
 // 공수 전환할 때 일 때 프린트
 game.printIsAttackOver = function () {
