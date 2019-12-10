@@ -1,42 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Level2</title>
-    <link rel="stylesheet" href="level2.css">
+    <link rel="stylesheet" href="level2.css"/>
 </head>
-
 <body>
-    <h2>신나는 야구게임!!</h2>
+    <h1>재미있는 야구게임</h1>
     <div class="btnContainer">
         <button class="js-inputBtn">팀 데이터 입력</button>
         <button class="js-modifyBtn">팀 데이터 수정</button>
         <button class="js-checkBtn">팀 데이터 확인</button>
-        <button class="js-playBtn">공 던지기(게임시작)</button>
-        <button class="js-autoBtn">자동진행(3초에 1번)</button>
+        <button class="js-startBtn">공 던지기(게임시작)</button>
+        <button class="js-autoPlayBtn">자동진행(0.3초에 1번)</button>
         <button class="js-autoStopBtn">자동진행 멈추기</button>
     </div>
-    <div class="outputContainer">
-        <div class="outputRow">
-            <div class="inningInfo">inningInfo<br>
-                1회초 삼성팀 공격!<br>삼성 VS SK<br>
-                0:0
-            </div>
-            <div class="attackInfo">
-                <p id="batterInfo">삼성팀<br>1번 타자 손현준<br></p>
-                <p id="ballCountInfo">STRIKE!<br>1S 0B 0O</p>
-            </div>
-            <div class="team1Info">team1</div>
-            <div class="team2Info">tema2</div>
+    <div class="printContainer">
+        <div class="printRow">
+            <div class="printInning">inning</div>
+            <div class="printAttack">attack</div>
+            <div class="printTeam1">team1</div>
+            <div class="printTeam2">tema2</div>
         </div>
     </div>
-    <script src="input.js"></script>
-    <script src="modify.js"></script>
-    <script src="check.js"></script>
-    <script src="game.js"></script>
 </body>
-
 </html>
