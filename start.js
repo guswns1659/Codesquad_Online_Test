@@ -36,7 +36,7 @@ game.init = function () {
     score.getCond();
     score.plusBallCount();
     score.handleBallCount();
-    
+    score.getScore();
     this.print();
     score.initCount();
     this.plusBatOrder();
@@ -123,6 +123,10 @@ score.is4Ball = function () {
 score.isAttackOver = function () {
     return this.BALLCOUNT[3] === 3;
 }
+score.is4Hit = function () {
+    return this.BALLCOUNT[2] === 4;
+}
+
 
 // 볼카운트 관리하는 메소드
 score.handleBallCount = function () {
@@ -141,6 +145,38 @@ score.BallToHit = function () {
     if (this.is4Ball()) {
         this.BALLCOUNT[1] = 0;
         this.BALLCOUNT[2] += 1;
+    }
+}
+
+// 4안타 이후 점수 얻는 코드
+score.getScore = function () {
+    if (game.isTeam1()) {
+        this.calcHitCount1();
+        console.log(`team1Score : ${this.team1Score}`);
+    } else {
+        this.calcHitCount2();
+        console.log(`team2Score : ${this.team2Score}`);
+    }
+}
+
+// 1팀의 안타가 4개 넘을 때 점수추가하는 메소드
+score.calcHitCount1 = function() {
+    if(this.isHit()){
+        if (this.BALLCOUNT[2] > 4) {
+            this.team1Score++;
+        } else if (this.is4Hit()) {
+            this.team1Score++;
+        }
+    }
+}
+// 2팀의 안타가 4개 넘을 때 점수추가하는 메소드
+score.calcHitCount2 = function() {
+    if(this.isHit()){
+        if (this.BALLCOUNT[2] > 4) {
+            this.team1Score++;
+        } else if (this.is4Hit()) {
+            this.team1Score++;
+        }
     }
 }
 

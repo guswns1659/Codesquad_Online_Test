@@ -14,7 +14,7 @@ input ={
 input.askTeam1 = function() {
     const teamName = prompt(`1팀의 이름을 입력해주세요 ex) SK와이번즈`);
     this.teamName.push(teamName);
-    for(let i = 0; i<2; i++){
+    for(let i = 0; i<5; i++){
         let batName = prompt(`1팀의 ${i+1}번 선수의 이름을 입력해주세요.ex) 양준혁`)
         this.team1BatName.push(batName);
         let batAvg = (Number(prompt(`1팀의 ${i+1}번 선수의 (타율X1000)을 입력해주세요\n` +
@@ -28,7 +28,7 @@ input.askTeam1 = function() {
 input.askTeam2 = function() {
     const teamName = prompt(`2팀의 이름을 입력해주세요 ex) SK와이번즈`);
     this.teamName.push(teamName);
-    for(let i = 0; i<2; i++){
+    for(let i = 0; i<5; i++){
         let batName = prompt(`2팀의 ${i+1}번 선수의 이름을 입력해주세요.ex) 양준혁`)
         this.team2BatName.push(batName);
         let batAvg = (Number(prompt(`2팀의 ${i+1}번 선수의 (타율X1000)을 입력해주세요\n` +
