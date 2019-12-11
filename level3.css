@@ -1,0 +1,71 @@
+.board1Container{
+    display: table;
+    width: 100%;
+    height: 100px;
+    border: 0.5px solid black;
+}
+.board1Row{
+    display: table-row;
+    border: 0.5px solid black;
+}
+
+.board1Cell{
+    display: table-cell;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.board2Container{
+    display: table;
+    width: 100%;
+    height: 100px;
+}
+.printboard2{
+    display: table-cell;
+    border: 1px solid green;
+    text-align: center;
+}
+
+.printTeam1{
+    display: table-cell;
+    border: 1px solid red;
+    font-size: 15px;
+    text-align: center;
+}
+
+.printTeam2{
+    display: table-cell;
+    border: 1px solid blue;
+    font-size: 15px;
+    text-align: center;
+}
+
+
+.printContainer{
+    display: table;
+    width: 100%;
+    height: 100px;
+}
+
+.printRow{
+    display: table-row;
+    border: 0.5px solid black;
+}
+
+.printInning{
+    display: table-cell;
+    border: 0.5px solid black;
+    text-align: center;
+    
+}
+
+.printAttack{
+    display: table-cell;
+    border: 1px solid black;
+    text-align: center;
+}
+
+
+.printBallCount{
+    margin: 10px 0px;
+}

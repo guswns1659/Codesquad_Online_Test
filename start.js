@@ -283,7 +283,7 @@ game.printIsAttackOver = function () {
 
     this.ballCountStr += `${score.currnetCond}!<br>`;
     this.ballCountStr += `0S 0B ${score.BALLCOUNT[3]}O<br><br>`;
-    this.ballCountStr += `공수 교대!!<br><br>`;
+    this.ballCountStr += `공수 교대!!<br>`;
     this.ballCountStr += `투구 수 : ${this.NumOfBall}개!`;
     printBallCount.innerHTML = this.ballCountStr;
     this.ballCountStr = '';
@@ -314,7 +314,7 @@ game.printIsStrikeOrBall = function () {
 
     this.ballCountStr += `${score.currnetCond}!<br>`;
     this.ballCountStr += `${score.BALLCOUNT[0]}S ${
-        score.BALLCOUNT[1]}B ${score.BALLCOUNT[3]}O<br><br>`;
+        score.BALLCOUNT[1]}B ${score.BALLCOUNT[3]}O<br>`;
     printBallCount.innerHTML = this.ballCountStr;
 
 }
@@ -331,7 +331,7 @@ game.printIsHitOrOut = function () {
 // 출력시 중복되는 코드
 game.copyText = function () {
     this.ballCountStr += `0S 0B ${score.BALLCOUNT[3]}O<br>`;
-    this.ballCountStr += `다음 타자가 입장했습니다.<br><br>`;
+    this.ballCountStr += `다음 타자가 입장했습니다.<br>`;
     printBallCount.innerHTML = this.ballCountStr;
     this.ballCountStr = '';
 }
