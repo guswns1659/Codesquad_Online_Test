@@ -14,6 +14,8 @@ game = {
     batterStr: '',
     ballCountStr: '',
     inningStr: '',
+    SBOStr: '',
+    HSHStr: '',
     team1: true,
     inningCount: 1,
     NumOfBall: 1,
@@ -38,6 +40,7 @@ game.init = function () {
     score.handleBallCount();
     score.getScore();
     this.print();
+    this.printSBO();
     score.initCount();
     this.plusBatOrder();
     this.printInnScore();
