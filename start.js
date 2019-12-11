@@ -26,7 +26,9 @@ score = {
     currnetCond: '',
     BALLCOUNT: [0, 0, 0, 0], // 스트라이크, 볼, 안타, 아웃
     team1Score: 0,
-    team2Score: 0
+    team2Score: 0,
+    team1prevScore: 0,
+    team2prevScore: 0
 };
 
 // 공 던지는 메소드
@@ -38,6 +40,7 @@ game.init = function () {
     this.print();
     score.initCount();
     this.plusBatOrder();
+    this.printInnScore();
     this.plusInningCount();
     this.changeTeam();
     this.initInning();
@@ -335,6 +338,35 @@ game.copyText = function () {
     printBallCount.innerHTML = this.ballCountStr;
     this.ballCountStr = '';
 }
+
+// 전광판의 점수를 업데이트하는 메소드
+game.printInnScore = function () {
+    if (this.isTeam1()) {
+        score.team1prevScore = this.printInnScore2(
+            TEAM1CELL, score.team1Score, score.team1prevScore);
+        const total = TEAM1CELL[7];
+        total.innerHTML = score.team1Score;
+    } else {
+        score.team2prevScore = this.printInnScore2(
+            TEAM2CELL, score.team2Score, score.team2prevScore);
+        const total = TEAM2CELL[7];
+        total.innerHTML = score.team2Score;
+    }
+}
+game.printInnScore2 = function (arr, point, prevScore) {
+    for (let i = 1; i < 7; i++) {
+        if (game.inningCount === i) {
+            const cell = arr[i];
+            point -= prevScore;
+            cell.innerHTML = point;
+        }
+    }
+    if (score.isAttackOver()) {
+        prevScore = point;
+    }
+    return prevScore;
+}
+
 
 function init() {
     startBtn.addEventListener('click', userWantStart);

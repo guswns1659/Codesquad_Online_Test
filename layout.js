@@ -5,6 +5,8 @@ const board1Container = document.querySelector('.board1Container'),
 
 // cell의 css속성이 담긴 className
 const CELL_CN = 'board1Cell';
+const TEAM1CELL = [];
+const TEAM2CELL = [];
 
 // 전광판의 1회, 2회 ... 
 function makeCell1() {
@@ -23,24 +25,25 @@ function makeCell1() {
 }
 // 전광판 속 team1의 점수
 function makeCell2() {
-    copyText(board1Row2);
+    copyText(board1Row2, TEAM1CELL);
     const cell0 = board1Row2.querySelector('#cell0');
     cell0.innerHTML = `${input.teamName[0]}`;
 }
 
 // 전광판 속 team2의 점수
 function makeCell3() {
-    copyText(board1Row3);
+    copyText(board1Row3, TEAM2CELL);
     const cell0 = board1Row3.querySelector('#cell0');
     cell0.innerHTML = `${input.teamName[1]}`;
 }
 
-function copyText(row) {
+function copyText(row, arr) {
     for(let i = 0; i<8; i++){
         const cell = document.createElement('div');
         cell.classList.add(CELL_CN);
         cell.innerHTML = `0`;
         cell.id = `cell${i}`;
+        arr.push(cell);
         row.appendChild(cell);
     }
 }
