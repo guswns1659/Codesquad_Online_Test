@@ -6,6 +6,7 @@ const startBtn = document.querySelector('.js-startBtn'),
 // 공던지기 버튼 핸들러 함수
 const userWantStart = function () {
     game.init();
+    setTimeout(game.askSkip, 2000);
 };
 
 // 게임 객체
@@ -41,7 +42,7 @@ game.init = function () {
     score.plusBallCount();
     score.handleBallCount();
     score.getScore();
-    this.print();
+    this.outputPrint();
     this.printSBO();
     this.printHSH();
     score.initCount();
@@ -124,7 +125,7 @@ score.is4Hit = function () {
     return this.BALLCOUNT[2] === 4;
 }
 score.isGameOver = function () {
-    return game.inningCount === 7;
+    return game.inningCount >= 7;
 }
 
 
@@ -225,7 +226,7 @@ game.plusInningCount = function () {
 }
 
 // 게임 결과를 출력하는 메소드
-game.print = function () {
+game.outputPrint = function () {
     if (score.isGameOver()) {
         this.printIsGameOver();
     } else if (score.isAttackOver()) {
@@ -293,7 +294,6 @@ game.printIsAttackOver = function () {
     this.ballCountStr += `${score.currnetCond}!<br>`;
     this.ballCountStr += `0S 0B ${score.BALLCOUNT[3]}O<br><br>`;
     this.ballCountStr += `공수 교대!!<br>`;
-    this.ballCountStr += `투구 수 : ${this.NumOfBall}개!`;
     printBallCount.innerHTML = this.ballCountStr;
     this.ballCountStr = '';
 }
