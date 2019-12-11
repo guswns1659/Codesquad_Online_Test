@@ -18,7 +18,9 @@ game = {
     HSHStr: '',
     team1: true,
     inningCount: 1,
-    NumOfBall: 1,
+    NumOfBall: [0, 0],
+    NumOfSO : [0, 0],
+    NumOfHit : [0, 0]
 };
 
 // 스코어 객체
@@ -41,6 +43,7 @@ game.init = function () {
     score.getScore();
     this.print();
     this.printSBO();
+    this.printHSH();
     score.initCount();
     this.plusBatOrder();
     this.printInnScore();
