@@ -6,12 +6,12 @@
 }
 .board1Row{
     display: table-row;
-    border: 0.5px solid black;
+
 }
 
 .board1Cell{
     display: table-cell;
-    border: 1px solid black;
+    border: 0.5px solid black;
     text-align: center;
 }
 
